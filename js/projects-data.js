@@ -19,7 +19,7 @@
  * - quickSnippet: Optional code/command snippet for the detail modal
  */
 
-const projectsData = [
+window.projectsData = [
   {
     id: "msp-toolkit-pro",
     title: "MSP Toolkit Pro",
@@ -108,7 +108,7 @@ MSPToolkit.exe --run dism-sfc-repair --all`
 ];
 
 // Available project categories for filtering
-const projectCategories = [
+window.projectCategories = [
   { id: "all", name: "All Projects" },
   { id: "desktop-rmm", name: "Desktop & RMM Tools" },
   { id: "automation", name: "Automation & Scripting" },
@@ -116,7 +116,7 @@ const projectCategories = [
 ];
 
 // Interactive Terminal Simulator Datasets
-const terminalCommands = [
+window.terminalCommands = [
   {
     id: "scan-json",
     label: "MSPToolkit --scan --json",
@@ -221,7 +221,7 @@ const terminalCommands = [
 ];
 
 // Architecture & MSP FAQ Data
-const faqData = [
+window.faqData = [
   {
     question: "Do MSP Toolkit Pro and IT Support Studio require any software prerequisites?",
     answer: "No. Both utilities are built as zero-dependency native Windows executables compiled against .NET Framework 4.8 / .NET 10. They run immediately on any standard Windows 10 or Windows 11 installation without requiring runtime packages, Java, Python, or administrative installers."
@@ -239,5 +239,12 @@ const faqData = [
     answer: "The GUI includes automatic UAC detection with a prominent elevation banner. In interactive mode, destructive fixes (such as DISM restore, network resets, or profile repairs) require explicit confirmation dialogs. In headless CLI mode, explicit action flags (e.g. <code>--all</code> or <code>--actions</code>) are strictly required to execute remediations."
   }
 ];
+
+// Provide global aliases for maximum environment compatibility
+var projectsData = window.projectsData;
+var projectCategories = window.projectCategories;
+var terminalCommands = window.terminalCommands;
+var faqData = window.faqData;
+
 
 

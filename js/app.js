@@ -4,6 +4,183 @@
  * Interactive Terminal Simulator, FAQ Accordion, Detail Modal, Toast Notifications
  */
 
+/* ==========================================================================
+   Internal Fallback Datasets (Ensures 100% uptime if external data fails)
+   ========================================================================== */
+
+const fallbackTerminalCommands = [
+  {
+    id: "scan-json",
+    label: "MSPToolkit --scan --json",
+    command: "MSPToolkit.exe --scan --json",
+    description: "Execute full auto-triage quick scan with machine-readable JSON",
+    output: [
+      '<span class="t-purple">[MSPToolkit]</span> Initializing Quick Scan Engine v1.0.4...',
+      '<span class="t-blue">[INFO]</span> Probing hardware, OS, disk health, and network connectivity...',
+      '<span class="t-green">[PASS]</span> OS: Windows 11 Enterprise (Build 22631.3880) - Uptime: 2d 04h 18m',
+      '<span class="t-green">[PASS]</span> System Storage: C: NTFS (214.2 GB Free of 475.8 GB) - 45% used',
+      '<span class="t-green">[PASS]</span> SMART Health: NVMe Samsung 980 PRO - Status: OK (0 Reallocated Sectors)',
+      '<span class="t-yellow">[WARN]</span> Pending Reboot: Component-Based Servicing (CBS) reboot flag detected',
+      '<span class="t-blue">[INFO]</span> Serializing results to structured JSON output...',
+      '',
+      '{',
+      '  <span class="t-blue">"timestamp"</span>: <span class="t-green">"2026-09-09T04:45:12Z"</span>,',
+      '  <span class="t-blue">"status"</span>: <span class="t-yellow">"WARNING"</span>,',
+      '  <span class="t-blue">"exit_code"</span>: <span class="t-purple">1</span>,',
+      '  <span class="t-blue">"summary"</span>: { <span class="t-blue">"errors"</span>: 0, <span class="t-blue">"warnings"</span>: 1, <span class="t-blue">"checks_passed"</span>: 14 },',
+      '  <span class="t-blue">"reboot_required"</span>: <span class="t-purple">true</span>,',
+      '  <span class="t-blue">"system"</span>: {',
+      '    <span class="t-blue">"hostname"</span>: <span class="t-green">"SYNDUCTION-WS01"</span>,',
+      '    <span class="t-blue">"os"</span>: <span class="t-green">"Microsoft Windows 11 Enterprise"</span>,',
+      '    <span class="t-blue">"ram_gb"</span>: <span class="t-purple">32</span>,',
+      '    <span class="t-blue">"primary_ip"</span>: <span class="t-green">"192.168.1.105"</span>',
+      '  }',
+      '}',
+      '',
+      '<span class="t-green">[SUCCESS]</span> Scan finished. Process exited with code: 1 (Warning: Pending Reboot).'
+    ]
+  },
+  {
+    id: "cw-automate",
+    label: "MSPToolkit --cw-automate",
+    command: "MSPToolkit.exe --cw-automate --format kv",
+    description: "Audit ConnectWise Automate Agent health with script-friendly Key=Value output",
+    output: [
+      '<span class="t-purple">[MSPToolkit]</span> ConnectWise Automate Agent Diagnostic Probe',
+      '<span class="t-blue">[INFO]</span> Checking registry keys at HKLM:\\SOFTWARE\\LabTech\\Service...',
+      '<span class="t-blue">[INFO]</span> Verifying Windows services: LTSvc (Running), LTSvcMon (Running)...',
+      '<span class="t-blue">[INFO]</span> Testing outbound TCP handshake to server: automate.mspcloud.com:443...',
+      '<span class="t-green">[OK]</span> Socket connection verified in 34ms.',
+      '',
+      'STATUS=HEALTHY',
+      'EXIT_CODE=0',
+      'ERRORS=0',
+      'WARNINGS=0',
+      'CW_INSTALLED=True',
+      'CW_COMPUTER_ID=84920',
+      'CW_CLIENT_ID=142',
+      'CW_LOCATION_ID=21',
+      'CW_SERVER=automate.mspcloud.com',
+      'CW_PORT=443',
+      'CW_VERSION=24.0.412',
+      'HEARTBEAT_STATUS=ONLINE',
+      '',
+      '<span class="t-green">[COMPLETED]</span> Automate agent telemetry returned for RMM @result@ parsing.'
+    ]
+  },
+  {
+    id: "dism-sfc",
+    label: "MSPToolkit --run dism-sfc-repair",
+    command: "MSPToolkit.exe --run dism-sfc-repair --all",
+    description: "Run automated DISM ScanHealth/RestoreHealth and SFC component repair",
+    output: [
+      '<span class="t-purple">[Remediation]</span> Executing Automated Windows Component Store Repair...',
+      '<span class="t-blue">[Step 1/3]</span> DISM.exe /Online /Cleanup-Image /ScanHealth',
+      '  Scanning component store: [====================] 100%',
+      '  <span class="t-yellow">[RESULT]</span> Component store corruption detected. Repair source is available.',
+      '<span class="t-blue">[Step 2/3]</span> DISM.exe /Online /Cleanup-Image /RestoreHealth',
+      '  Restoring component store files: [====================] 100%',
+      '  <span class="t-green">[RESULT]</span> The restore operation completed successfully.',
+      '<span class="t-blue">[Step 3/3]</span> SFC.exe /scannow (System File Checker)',
+      '  Beginning system scan verification: [====================] 100%',
+      '  <span class="t-green">[RESULT]</span> Windows Resource Protection found corrupt files and successfully repaired them.',
+      '',
+      '<span class="t-green">[SUCCESS]</span> Component store verified and repaired. Process exit code: 0.'
+    ]
+  },
+  {
+    id: "build-exe",
+    label: "ITSupportStudio: Build Standalone",
+    command: ".\\scripts\\Build-StandaloneExe.ps1 -Config \"templates\\modern_slate.json\"",
+    description: "Compile a custom-branded 70KB standalone IT support executable",
+    output: [
+      '<span class="t-purple">[IT Support Studio]</span> Standalone Executable Compiler',
+      '<span class="t-blue">[INFO]</span> Loading configuration profile: templates\\modern_slate.json',
+      '<span class="t-blue">[INFO]</span> Profile: "Corporate Support Companion" - Primary Color: #4F46E5',
+      '<span class="t-blue">[INFO]</span> Embedding company logo vector asset: assets\\logo_light.png',
+      '<span class="t-blue">[INFO]</span> Generating C# source metadata with embedded branding parameters...',
+      '<span class="t-blue">[INFO]</span> Invoking native Microsoft .NET C# compiler (csc.exe)...',
+      '  C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe /target:winexe /optimize+ /platform:anycpu',
+      '  Output target: build\\CorporateSupportInfo.exe',
+      '',
+      '<span class="t-green">[SUCCESS]</span> Standalone executable compiled successfully!',
+      '  Binary Location: build\\CorporateSupportInfo.exe',
+      '  Size: 72,192 bytes (~70.5 KB)',
+      '  Prerequisites: 0 (Runs natively on Windows 10 & 11 without installer)',
+      '  Deployment Script Generated: build\\Deploy-IntuneSupportTool.ps1'
+    ]
+  }
+];
+
+const fallbackFaqData = [
+  {
+    question: "Do MSP Toolkit Pro and IT Support Studio require any software prerequisites?",
+    answer: "No. Both utilities are built as zero-dependency native Windows executables compiled against .NET Framework 4.8 / .NET 10. They run immediately on any standard Windows 10 or Windows 11 installation without requiring runtime packages, Java, Python, or administrative installers."
+  },
+  {
+    question: "How do the headless CLI commands integrate into RMM platforms like Ninja, Datto, or Automate?",
+    answer: "When executed with arguments (e.g. <code>--scan</code> or <code>--cw-automate</code>), the application suppresses the GUI window and outputs machine-readable JSON or single-line Key=Value pairs directly to standard output (stdout). Standardized RMM exit codes (0 = Healthy, 1 = Warning, 2 = Critical Error) allow RMM alert monitors to triage endpoints automatically."
+  },
+  {
+    question: "Can we rebrand IT Support Studio with our own logo and helpdesk contact details?",
+    answer: "Yes. IT Support Studio is fully white-label. You can configure company branding, phone numbers, email addresses, and ScreenConnect/remote support URLs via the visual builder studio GUI or JSON profiles, and compile a single branded <code>.exe</code> with deployment scripts for Microsoft Intune in one click."
+  },
+  {
+    question: "How are destructive actions and Windows UAC elevations handled?",
+    answer: "The GUI includes automatic UAC detection with a prominent elevation banner. In interactive mode, destructive fixes (such as DISM restore, network resets, or profile repairs) require explicit confirmation dialogs. In headless CLI mode, explicit action flags (e.g. <code>--all</code> or <code>--actions</code>) are strictly required to execute remediations."
+  }
+];
+
+// Helper functions to safely retrieve datasets
+function getTerminalCommands() {
+  if (typeof window !== 'undefined' && Array.isArray(window.terminalCommands) && window.terminalCommands.length > 0) {
+    return window.terminalCommands;
+  }
+  if (typeof terminalCommands !== 'undefined' && Array.isArray(terminalCommands) && terminalCommands.length > 0) {
+    return terminalCommands;
+  }
+  return fallbackTerminalCommands;
+}
+
+function getFaqData() {
+  if (typeof window !== 'undefined' && Array.isArray(window.faqData) && window.faqData.length > 0) {
+    return window.faqData;
+  }
+  if (typeof faqData !== 'undefined' && Array.isArray(faqData) && faqData.length > 0) {
+    return faqData;
+  }
+  return fallbackFaqData;
+}
+
+function getProjectsData() {
+  if (typeof window !== 'undefined' && Array.isArray(window.projectsData) && window.projectsData.length > 0) {
+    return window.projectsData;
+  }
+  if (typeof projectsData !== 'undefined' && Array.isArray(projectsData) && projectsData.length > 0) {
+    return projectsData;
+  }
+  return [];
+}
+
+function getProjectCategories() {
+  if (typeof window !== 'undefined' && Array.isArray(window.projectCategories) && window.projectCategories.length > 0) {
+    return window.projectCategories;
+  }
+  if (typeof projectCategories !== 'undefined' && Array.isArray(projectCategories) && projectCategories.length > 0) {
+    return projectCategories;
+  }
+  return [
+    { id: "all", name: "All Projects" },
+    { id: "desktop-rmm", name: "Desktop & RMM Tools" },
+    { id: "automation", name: "Automation & Scripting" },
+    { id: "diagnostics", name: "Diagnostics" }
+  ];
+}
+
+/* ==========================================================================
+   DOM Initialization
+   ========================================================================== */
+
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initNavigation();
@@ -66,7 +243,6 @@ function initTheme() {
   const moonIcon = document.getElementById('theme-icon-moon');
   const eclipseIcon = document.getElementById('theme-icon-eclipse');
 
-  // Check saved theme or fallback to slate
   const savedTheme = localStorage.getItem('synduction-theme');
   let currentTheme = (savedTheme && THEMES.includes(savedTheme)) ? savedTheme : 'slate';
   applyTheme(currentTheme, false);
@@ -92,7 +268,6 @@ function initTheme() {
       if (moonIcon) moonIcon.style.display = 'none';
       if (eclipseIcon) eclipseIcon.style.display = 'block';
     } else {
-      // Default: Slate Dark
       document.documentElement.setAttribute('data-theme', 'slate');
       if (sunIcon) sunIcon.style.display = 'block';
       if (moonIcon) moonIcon.style.display = 'none';
@@ -118,7 +293,6 @@ function initNavigation() {
   const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
   const navLinksContainer = document.getElementById('nav-links');
 
-  // Mobile menu toggle
   if (mobileMenuToggle && navLinksContainer) {
     mobileMenuToggle.addEventListener('click', () => {
       navLinksContainer.classList.toggle('mobile-open');
@@ -126,7 +300,6 @@ function initNavigation() {
       mobileMenuToggle.setAttribute('aria-expanded', isOpen);
     });
 
-    // Close mobile menu when a link is clicked
     navLinks.forEach(link => {
       link.addEventListener('click', () => {
         navLinksContainer.classList.remove('mobile-open');
@@ -135,7 +308,6 @@ function initNavigation() {
     });
   }
 
-  // Active link highlighter using IntersectionObserver
   const observerOptions = {
     root: null,
     rootMargin: '-20% 0px -60% 0px',
@@ -191,9 +363,10 @@ function initProjectsSection() {
 
 function renderCategoryPills() {
   const container = document.getElementById('category-filter-pills');
-  if (!container || !window.projectCategories) return;
+  const categories = getProjectCategories();
+  if (!container || !categories.length) return;
 
-  container.innerHTML = window.projectCategories.map(cat => `
+  container.innerHTML = categories.map(cat => `
     <button class="category-pill-btn ${cat.id === activeCategory ? 'active' : ''}" data-category="${cat.id}">
       ${cat.name}
     </button>
@@ -211,10 +384,10 @@ function renderCategoryPills() {
 
 function renderProjects() {
   const grid = document.getElementById('projects-grid');
-  if (!grid || !window.projectsData) return;
+  const projects = getProjectsData();
+  if (!grid || !projects.length) return;
 
-  // Filter projects
-  const filtered = window.projectsData.filter(project => {
+  const filtered = projects.filter(project => {
     const matchesCategory = activeCategory === 'all' || project.category === activeCategory;
     const matchesSearch = !searchQuery || 
       project.title.toLowerCase().includes(searchQuery) ||
@@ -300,7 +473,6 @@ function renderProjects() {
     `;
   }).join('');
 
-  // Attach modal trigger listeners
   grid.querySelectorAll('.view-details-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const pid = btn.getAttribute('data-project-id');
@@ -308,7 +480,6 @@ function renderProjects() {
     });
   });
 
-  // Attach card quick copy command listeners
   grid.querySelectorAll('.card-command-copy-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -352,7 +523,8 @@ function initModal() {
 }
 
 function openProjectModal(projectId) {
-  const project = window.projectsData.find(p => p.id === projectId);
+  const projects = getProjectsData();
+  const project = projects.find(p => p.id === projectId);
   if (!project) return;
 
   const backdrop = document.getElementById('project-modal-backdrop');
@@ -371,7 +543,6 @@ function openProjectModal(projectId) {
     githubLinkEl.style.display = 'none';
   }
 
-  // Build body HTML
   let contentHtml = `
     <div>
       <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">Overview</h4>
@@ -414,7 +585,6 @@ function openProjectModal(projectId) {
 
   bodyEl.innerHTML = contentHtml;
 
-  // Snippet copy button
   const copyBtn = bodyEl.querySelector('.copy-snippet-btn');
   if (copyBtn && project.quickSnippet) {
     copyBtn.addEventListener('click', () => {
@@ -441,7 +611,7 @@ function closeModal() {
    Interactive Terminal Simulator
    ========================================================================== */
 
-let isStreamingTerminal = false;
+let activeStreamTimer = null;
 
 function initTerminalSimulator() {
   const controlsContainer = document.getElementById('simulator-controls');
@@ -450,10 +620,11 @@ function initTerminalSimulator() {
   const clearBtn = document.getElementById('terminal-clear-btn');
   const copyOutputBtn = document.getElementById('terminal-copy-btn');
 
-  if (!controlsContainer || !terminalScreen || !window.terminalCommands) return;
+  const commands = getTerminalCommands();
+  if (!controlsContainer || !terminalScreen || commands.length === 0) return;
 
   // Render command selection pills
-  controlsContainer.innerHTML = window.terminalCommands.map((item, idx) => `
+  controlsContainer.innerHTML = commands.map((item, idx) => `
     <button class="cmd-pill-btn ${idx === 0 ? 'active' : ''}" data-cmd-id="${escapeHtml(item.id)}">
       <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -464,7 +635,6 @@ function initTerminalSimulator() {
 
   controlsContainer.querySelectorAll('.cmd-pill-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      if (isStreamingTerminal) return;
       const cmdId = btn.getAttribute('data-cmd-id');
       controlsContainer.querySelectorAll('.cmd-pill-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -474,6 +644,10 @@ function initTerminalSimulator() {
 
   if (clearBtn) {
     clearBtn.addEventListener('click', () => {
+      if (activeStreamTimer) {
+        clearInterval(activeStreamTimer);
+        activeStreamTimer = null;
+      }
       terminalScreen.innerHTML = `
         <div class="terminal-prompt-line">
           <span>PS C:\\Tools&gt;</span>
@@ -493,17 +667,22 @@ function initTerminalSimulator() {
   }
 
   // Run first command initially
-  runSimulatorCommand(window.terminalCommands[0].id);
+  runSimulatorCommand(commands[0].id);
 
   function runSimulatorCommand(commandId) {
-    const cmdObj = window.terminalCommands.find(c => c.id === commandId);
+    const allCommands = getTerminalCommands();
+    const cmdObj = allCommands.find(c => c.id === commandId) || allCommands[0];
     if (!cmdObj) return;
+
+    if (activeStreamTimer) {
+      clearInterval(activeStreamTimer);
+      activeStreamTimer = null;
+    }
 
     if (terminalCommandTitle) {
       terminalCommandTitle.textContent = cmdObj.command;
     }
 
-    isStreamingTerminal = true;
     terminalScreen.innerHTML = `
       <div class="terminal-prompt-line">
         <span>PS C:\\Tools&gt;</span>
@@ -515,7 +694,7 @@ function initTerminalSimulator() {
     const outputContainer = document.getElementById('stream-output');
     let lineIdx = 0;
 
-    const interval = setInterval(() => {
+    activeStreamTimer = setInterval(() => {
       if (lineIdx < cmdObj.output.length) {
         const line = cmdObj.output[lineIdx];
         const lineEl = document.createElement('div');
@@ -524,8 +703,9 @@ function initTerminalSimulator() {
         terminalScreen.scrollTop = terminalScreen.scrollHeight;
         lineIdx++;
       } else {
-        clearInterval(interval);
-        // Append prompt line with cursor
+        clearInterval(activeStreamTimer);
+        activeStreamTimer = null;
+
         const endPrompt = document.createElement('div');
         endPrompt.className = 'terminal-prompt-line';
         endPrompt.style.marginTop = '0.75rem';
@@ -535,9 +715,8 @@ function initTerminalSimulator() {
         `;
         terminalScreen.appendChild(endPrompt);
         terminalScreen.scrollTop = terminalScreen.scrollHeight;
-        isStreamingTerminal = false;
       }
-    }, 45);
+    }, 40);
   }
 }
 
@@ -547,9 +726,10 @@ function initTerminalSimulator() {
 
 function initFAQ() {
   const faqContainer = document.getElementById('faq-accordion');
-  if (!faqContainer || !window.faqData) return;
+  const faqs = getFaqData();
+  if (!faqContainer || faqs.length === 0) return;
 
-  faqContainer.innerHTML = window.faqData.map((item, idx) => `
+  faqContainer.innerHTML = faqs.map((item, idx) => `
     <div class="faq-item ${idx === 0 ? 'active' : ''}">
       <button class="faq-trigger" aria-expanded="${idx === 0 ? 'true' : 'false'}">
         <span>${escapeHtml(item.question)}</span>
@@ -568,10 +748,10 @@ function initFAQ() {
       const item = trigger.closest('.faq-item');
       const isActive = item.classList.contains('active');
 
-      // Close other items
       faqContainer.querySelectorAll('.faq-item').forEach(i => {
         i.classList.remove('active');
-        i.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+        const trig = i.querySelector('.faq-trigger');
+        if (trig) trig.setAttribute('aria-expanded', 'false');
       });
 
       if (!isActive) {
