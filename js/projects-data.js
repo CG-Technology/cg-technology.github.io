@@ -159,7 +159,7 @@ powershell -ExecutionPolicy Bypass -File .\\Detect-Zoom.ps1`
     category: "diagnostics",
     categoryName: "Hardware & Health",
     categories: ["diagnostics"],
-    badge: "v1.0.0 Ready",
+    badge: "v1.0.1 Ready",
     badgeType: "success",
     featured: true,
     tags: ["PC Health Score", "Drive SMART & NVMe", "Battery Degradation", "Crash Analysis", "PowerShell & WPF"],
