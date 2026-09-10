@@ -8,7 +8,7 @@ $listener.Prefixes.Add("http://localhost:$Port/")
 $listener.Start()
 
 Write-Host "====================================================" -ForegroundColor Cyan
-Write-Host " Synduction Showcase Server Started" -ForegroundColor Green
+Write-Host " CG Technology Showcase Server Started" -ForegroundColor Green
 Write-Host " Local URL: http://localhost:$Port/" -ForegroundColor Yellow
 Write-Host " Press Ctrl+C in this terminal to stop the server" -ForegroundColor Gray
 Write-Host "====================================================" -ForegroundColor Cyan

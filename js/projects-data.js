@@ -1,5 +1,5 @@
 /**
- * Synduction Portfolio - Projects Data Source
+ * CG Technology Portfolio - Projects Data Source
  * 
  * To add a new project, simply add an object to this array.
  * Fields:
@@ -38,8 +38,8 @@ window.projectsData = [
       { label: "Deployment", value: "Single .exe" }
     ],
     links: {
-      github: "https://github.com/Synduction/MSPToolkitPro",
-      docs: "https://github.com/Synduction/MSPToolkitPro#readme"
+      github: "https://github.com/CG-Technology/MSPToolkitPro",
+      docs: "https://github.com/CG-Technology/MSPToolkitPro#readme"
     },
     features: [
       "Dual-Mode (GUI & CLI): Interactive WPF UI for technician desktops; headless execution with JSON and Key=Value outputs for automated RMMs",
@@ -62,7 +62,7 @@ MSPToolkit.exe --cw-automate-repair --all --silent
 MSPToolkit.exe --run dism-sfc-repair --all`
     },
     quickRunCommand: "MSPToolkit.exe --scan --json",
-    quickClone: "git clone https://github.com/Synduction/MSPToolkitPro.git"
+    quickClone: "git clone https://github.com/CG-Technology/MSPToolkitPro.git"
   },
   {
     id: "it-support-studio",
@@ -82,8 +82,8 @@ MSPToolkit.exe --run dism-sfc-repair --all`
       { label: "Deployment", value: "Intune / GPO" }
     ],
     links: {
-      github: "https://github.com/Synduction/ITSupportStudio",
-      docs: "https://github.com/Synduction/ITSupportStudio#readme"
+      github: "https://github.com/CG-Technology/ITSupportStudio",
+      docs: "https://github.com/CG-Technology/ITSupportStudio#readme"
     },
     features: [
       "Client Support Widget: Real-time hostname, logged-in user, local/external IP, system uptime counter, and active internet connectivity probe",
@@ -103,7 +103,7 @@ MSPToolkit.exe --run dism-sfc-repair --all`
 .\\scripts\\Build-StandaloneExe.ps1 -Config "templates\\modern_slate.json" -Output "build\\CustomSupportInfo.exe"`
     },
     quickRunCommand: ".\\scripts\\Run-Builder.ps1",
-    quickClone: "git clone https://github.com/Synduction/ITSupportStudio.git"
+    quickClone: "git clone https://github.com/CG-Technology/ITSupportStudio.git"
   }
 ];
 
@@ -138,7 +138,7 @@ window.terminalCommands = [
       '  <span class="t-blue">"summary"</span>: { <span class="t-blue">"errors"</span>: 0, <span class="t-blue">"warnings"</span>: 1, <span class="t-blue">"checks_passed"</span>: 14 },',
       '  <span class="t-blue">"reboot_required"</span>: <span class="t-purple">true</span>,',
       '  <span class="t-blue">"system"</span>: {',
-      '    <span class="t-blue">"hostname"</span>: <span class="t-green">"SYNDUCTION-WS01"</span>,',
+      '    <span class="t-blue">"hostname"</span>: <span class="t-green">"CGTECH-WS01"</span>,',
       '    <span class="t-blue">"os"</span>: <span class="t-green">"Microsoft Windows 11 Enterprise"</span>,',
       '    <span class="t-blue">"ram_gb"</span>: <span class="t-purple">32</span>,',
       '    <span class="t-blue">"primary_ip"</span>: <span class="t-green">"192.168.1.105"</span>',

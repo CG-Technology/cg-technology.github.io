@@ -1,5 +1,5 @@
 /**
- * Synduction Portfolio - Main Application Logic
+ * CG Technology Portfolio - Main Application Logic
  * Dual-Mode Navigation, 3-Tier Themes, Project Filter/Search,
  * Interactive Terminal Simulator, FAQ Accordion, Detail Modal, Toast Notifications
  */
@@ -30,7 +30,7 @@ const fallbackTerminalCommands = [
       '  <span class="t-blue">"summary"</span>: { <span class="t-blue">"errors"</span>: 0, <span class="t-blue">"warnings"</span>: 1, <span class="t-blue">"checks_passed"</span>: 14 },',
       '  <span class="t-blue">"reboot_required"</span>: <span class="t-purple">true</span>,',
       '  <span class="t-blue">"system"</span>: {',
-      '    <span class="t-blue">"hostname"</span>: <span class="t-green">"SYNDUCTION-WS01"</span>,',
+      '    <span class="t-blue">"hostname"</span>: <span class="t-green">"CGTECH-WS01"</span>,',
       '    <span class="t-blue">"os"</span>: <span class="t-green">"Microsoft Windows 11 Enterprise"</span>,',
       '    <span class="t-blue">"ram_gb"</span>: <span class="t-purple">32</span>,',
       '    <span class="t-blue">"primary_ip"</span>: <span class="t-green">"192.168.1.105"</span>',
@@ -243,7 +243,7 @@ function initTheme() {
   const moonIcon = document.getElementById('theme-icon-moon');
   const eclipseIcon = document.getElementById('theme-icon-eclipse');
 
-  const savedTheme = localStorage.getItem('synduction-theme');
+  const savedTheme = localStorage.getItem('cgtech-theme') || localStorage.getItem('synduction-theme');
   let currentTheme = (savedTheme && THEMES.includes(savedTheme)) ? savedTheme : 'slate';
   applyTheme(currentTheme, false);
 
@@ -253,7 +253,7 @@ function initTheme() {
     currentTheme = THEMES[nextIndex];
 
     applyTheme(currentTheme, true);
-    localStorage.setItem('synduction-theme', currentTheme);
+    localStorage.setItem('cgtech-theme', currentTheme);
   });
 
   function applyTheme(theme, notify = true) {
@@ -776,7 +776,7 @@ function initContactForm() {
 
     const name = form.elements['name']?.value.trim();
     const email = form.elements['email']?.value.trim();
-    const subject = form.elements['subject']?.value.trim() || 'Inquiry from Synduction Portfolio';
+    const subject = form.elements['subject']?.value.trim() || 'Inquiry for CG Technology';
     const message = form.elements['message']?.value.trim();
 
     if (!name || !email || !message) {

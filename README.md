@@ -1,28 +1,35 @@
-# Synduction - Systems & Tools Showcase Website
+# CG Technology - Systems & Tools Showcase Website
 
 A clean, modern portfolio and project showcase website engineered to display your desktop utilities, RMM tools, and systems management solutions.
 
-Built with a **Slate & Deep Indigo** aesthetic, dual-mode tab navigation, real-time search & category filtering, dark/light theme switching, and zero external build dependencies.
+Built with a **Slate & Deep Indigo** aesthetic, 3-tier theme selector (Slate, Midnight OLED, Light), dual-mode tab navigation, live interactive CLI terminal simulator, real-time search & category filtering, and zero external build dependencies.
 
 ---
 
 ## Live Features
 
 - **Dual-Mode Navigation**:
-  - Sticky navbar with automatic active tab indicator (`Home`, `About`, `Projects`, `Contact`).
+  - Sticky navbar with automatic active tab indicator (`Home`, `About`, `Projects`, `CLI Simulator`, `Architecture FAQ`, `Contact`).
   - Seamless smooth scrolling to each section with direct URL hashtag support.
   - Mobile responsive drawer menu.
 - **Projects Showcase Hub**:
-  - Pre-populated with your GitHub repositories: **MSP Toolkit Pro** and **IT Support Studio**.
+  - Pre-populated with your GitHub repositories under **CG-Technology**: **MSP Toolkit Pro** and **IT Support Studio**.
   - Real-time search by tool name, keywords, or technology stack (`WPF`, `RMM`, `DISM`, `PowerShell`).
   - Category filter pills (`All Projects`, `Desktop & RMM Tools`, `Automation & Scripting`, `Diagnostics`).
   - **Project Details Modal**: Click *Details & Specs* on any card to view architectural breakdowns, key features, and 1-click copyable CLI / PowerShell command snippets.
-  - Direct links to GitHub repositories.
-- **Slate & Deep Indigo Design System**:
-  - Fully responsive, uncluttered, typography-focused UI.
-  - Persistent Light / Dark mode toggle (persists choice in `localStorage`).
+  - Direct links to GitHub repositories (`https://github.com/CG-Technology/...`).
+- **Interactive CLI & Triage Simulator**:
+  - Live typewriter streaming of real diagnostic and remediation commands (`--scan --json`, `--cw-automate`, `dism-sfc-repair`, `Build-StandaloneExe.ps1`).
+  - Color-coded terminal output and 1-click copy session buffer.
+- **Architecture & FAQ Accordion**:
+  - Pre-configured answers to technical questions about zero-dependency runtimes, RMM exit codes, white-labeling, and UAC elevation handling.
+- **3-Tier Theme Switcher**:
+  - **Slate Dark** (Default: Balanced corporate navy slate)
+  - **Midnight Dark** (OLED pitch black with electric violet & radiant indigo glow)
+  - **Light Mode** (Crisp minimal slate white)
+  - Seamless 1-click cycling button persisting your preference in `localStorage`.
 - **Inquiry & Contact Hub**:
-  - Direct links to your GitHub profile.
+  - Direct links to the **CG-Technology** GitHub profile.
   - Interactive contact form with input validation and feedback alerts.
 - **Zero-Dependency Architecture**:
   - 100% standard HTML5, CSS3, and modern ES6+ JavaScript.
@@ -68,8 +75,8 @@ To add a new project, simply append an entry to the `projectsData` array:
     { label: "Binary Size", value: "120 KB" }
   ],
   links: {
-    github: "https://github.com/Synduction/MyNewTool",
-    docs: "https://github.com/Synduction/MyNewTool#readme"
+    github: "https://github.com/CG-Technology/MyNewTool",
+    docs: "https://github.com/CG-Technology/MyNewTool#readme"
   },
   features: [
     "Feature 1: Description of capability",
@@ -87,14 +94,13 @@ The website will automatically render the new project card, include it in search
 
 ---
 
-## Deploying to GitHub Pages
+## Deploying to GitHub Pages (Under CG-Technology)
 
-Because this site is built with standard static web files, you can deploy it for free on GitHub Pages in seconds:
+Because this site is built with standard static web files, you can publish it to GitHub Pages for free in seconds under your **CG-Technology** organization:
 
-1. Create a repository on GitHub (e.g. `Synduction/synduction.github.io` for a primary root portfolio, or `Synduction/showcase`).
-2. Push this directory's contents to the repository.
-3. In GitHub, go to **Settings > Pages > Build and deployment**:
-   - Source: **Deploy from a branch**
-   - Branch: `master` (or `main`) / `/ (root)`
-4. Your website is live!
-
+1. Create the organization portfolio repository:
+   ```powershell
+   gh repo create CG-Technology/cg-technology.github.io --public --source=. --remote=origin --push
+   ```
+2. Your website will be live worldwide at:
+   👉 **`https://cg-technology.github.io`**
