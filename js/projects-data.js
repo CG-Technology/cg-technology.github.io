@@ -14,9 +14,11 @@
  * - tags: Array of technology strings
  * - featured: Boolean (if true, highlighted on Home page)
  * - stats: Array of key metrics or highlights
- * - links: { github: string, demo?: string, docs?: string }
+ * - links: { github: string, docs?: string, releases?: string }
  * - features: Array of key capabilities
  * - quickSnippet: Optional code/command snippet for the detail modal
+ * - quickRunCommand: CLI snippet on card
+ * - quickClone: Git clone snippet on card
  */
 
 window.projectsData = [
@@ -39,7 +41,8 @@ window.projectsData = [
     ],
     links: {
       github: "https://github.com/CG-Technology/MSPToolkitPro",
-      docs: "https://github.com/CG-Technology/MSPToolkitPro#readme"
+      docs: "https://github.com/CG-Technology/MSPToolkitPro#readme",
+      releases: "https://github.com/CG-Technology/MSPToolkitPro/releases"
     },
     features: [
       "Dual-Mode (GUI & CLI): Interactive WPF UI for technician desktops; headless execution with JSON and Key=Value outputs for automated RMMs",
@@ -83,7 +86,8 @@ MSPToolkit.exe --run dism-sfc-repair --all`
     ],
     links: {
       github: "https://github.com/CG-Technology/ITSupportStudio",
-      docs: "https://github.com/CG-Technology/ITSupportStudio#readme"
+      docs: "https://github.com/CG-Technology/ITSupportStudio#readme",
+      releases: "https://github.com/CG-Technology/ITSupportStudio/releases"
     },
     features: [
       "Client Support Widget: Real-time hostname, logged-in user, local/external IP, system uptime counter, and active internet connectivity probe",
@@ -104,6 +108,47 @@ MSPToolkit.exe --run dism-sfc-repair --all`
     },
     quickRunCommand: ".\\scripts\\Run-Builder.ps1",
     quickClone: "git clone https://github.com/CG-Technology/ITSupportStudio.git"
+  },
+  {
+    id: "intune-app-packager",
+    title: "Intune App Packager",
+    subtitle: "Automated Win32 (.intunewin) packager & PowerShell detection script generator",
+    description: "A specialized packaging engine engineered for systems administrators and MSPs deploying applications via Microsoft Intune. Transforms any EXE or MSI installer into an encrypted .intunewin package, extracts installer signatures, and generates production-ready PowerShell detection scripts with silent install/uninstall parameters in seconds.",
+    category: "automation",
+    categoryName: "Automation & Scripting",
+    badge: "Beta • Active",
+    badgeType: "accent",
+    featured: true,
+    tags: ["PowerShell", "Microsoft Intune", "Win32 App", "C#", "Automation"],
+    stats: [
+      { label: "Packaging Speed", value: "< 5s" },
+      { label: "Detection Rules", value: "Auto-Gen" },
+      { label: "Installer Support", value: "EXE / MSI" },
+      { label: "Intune Prep", value: "Automated" }
+    ],
+    links: {
+      github: "https://github.com/CG-Technology/IntuneAppPackager",
+      docs: "https://github.com/CG-Technology/IntuneAppPackager#readme",
+      releases: "https://github.com/CG-Technology/IntuneAppPackager/releases"
+    },
+    features: [
+      "Automated .intunewin Compilation: Wraps Microsoft Win32 Content Prep Tool with a high-speed GUI and batch pipeline",
+      "Dynamic PowerShell Detection Builder: Auto-generates registry, file version, and MSI ProductCode verification scripts with exit 0/1 logic",
+      "Silent Parameter Catalog: Built-in library of proven install switches for Inno Setup, InstallShield, NSIS, WiX, and MSI",
+      "Requirement Rule Analyzer: Inspects minimum Windows 10/11 build numbers, disk space, and 64-bit architecture constraints",
+      "Batch Directory Processing: Queue multiple software packages and compile ready-to-upload Intune bundles sequentially"
+    ],
+    quickSnippet: {
+      language: "powershell",
+      caption: "Intune Packaging & Detection Generator",
+      code: `# Package Win32 installer and generate detection scripts
+IntunePackager.exe -Source "C:\\Apps\\Zoom" -Setup "ZoomInstaller.exe" -Output "C:\\Intune" -AutoDetect
+
+# Test generated PowerShell detection rule locally
+powershell -ExecutionPolicy Bypass -File .\\DetectionRule.ps1`
+    },
+    quickRunCommand: "IntunePackager.exe -Source \"C:\\Apps\\Zoom\" -Setup \"ZoomInstaller.exe\"",
+    quickClone: "git clone https://github.com/CG-Technology/IntuneAppPackager.git"
   }
 ];
 
@@ -146,6 +191,33 @@ window.terminalCommands = [
       '}',
       '',
       '<span class="t-green">[SUCCESS]</span> Scan finished. Process exited with code: 1 (Warning: Pending Reboot).'
+    ]
+  },
+  {
+    id: "intune-pack",
+    label: "IntunePackager -Package",
+    command: "IntunePackager.exe -Source \"C:\\Apps\\Zoom\" -Setup \"ZoomInstaller.exe\" -AutoDetect",
+    description: "Compile .intunewin bundle and auto-generate Intune PowerShell detection script",
+    output: [
+      '<span class="t-purple">[IntunePackager]</span> Microsoft Win32 Content Prep Engine v2.1',
+      '<span class="t-blue">[INFO]</span> Inspecting source setup binary: ZoomInstaller.exe...',
+      '<span class="t-blue">[INFO]</span> Detecting installer architecture: 64-bit Inno Setup',
+      '<span class="t-green">[DETECTED]</span> Product Version: 6.1.5.42901',
+      '<span class="t-green">[DETECTED]</span> Silent Install Switch: /silent /norestart',
+      '<span class="t-green">[DETECTED]</span> Silent Uninstall Switch: /uninstall /silent',
+      '<span class="t-blue">[INFO]</span> Encrypting payload into Win32 application package...',
+      '  Compressing C:\\Apps\\Zoom [====================] 100%',
+      '  Generating SHA256 integrity block...',
+      '<span class="t-green">[SUCCESS]</span> Created: C:\\Intune\\ZoomInstaller.intunewin (58.4 MB)',
+      '<span class="t-blue">[INFO]</span> Generating PowerShell detection rule: C:\\Intune\\Detect-Zoom.ps1',
+      '',
+      '  # PowerShell Detection Snippet (Exit 0 = Installed, Exit 1 = Not Found)',
+      '  $path = "${env:ProgramFiles}\\Zoom\\bin\\Zoom.exe"',
+      '  if ((Test-Path $path) -and ([System.Diagnostics.FileVersionInfo]::GetVersionInfo($path).FileVersion -ge "6.1.5.42901")) {',
+      '      Write-Host "Installed" ; exit 0',
+      '  } else { exit 1 }',
+      '',
+      '<span class="t-green">[COMPLETED]</span> Package and Intune detection scripts generated in 3.4 seconds.'
     ]
   },
   {
@@ -227,6 +299,10 @@ window.faqData = [
     answer: "No. Both utilities are built as zero-dependency native Windows executables compiled against .NET Framework 4.8 / .NET 10. They run immediately on any standard Windows 10 or Windows 11 installation without requiring runtime packages, Java, Python, or administrative installers."
   },
   {
+    question: "How does Intune App Packager speed up application deployments?",
+    answer: "Instead of manually extracting MSI ProductCodes, crafting detection scripts, and running command-line Content Prep packaging, Intune App Packager inspects the setup file, detects standard silent install switches, auto-compiles the <code>.intunewin</code> payload, and generates verified PowerShell detection scripts ready to paste into Intune."
+  },
+  {
     question: "How do the headless CLI commands integrate into RMM platforms like Ninja, Datto, or Automate?",
     answer: "When executed with arguments (e.g. <code>--scan</code> or <code>--cw-automate</code>), the application suppresses the GUI window and outputs machine-readable JSON or single-line Key=Value pairs directly to standard output (stdout). Standardized RMM exit codes (0 = Healthy, 1 = Warning, 2 = Critical Error) allow RMM alert monitors to triage endpoints automatically."
   },
@@ -245,6 +321,3 @@ var projectsData = window.projectsData;
 var projectCategories = window.projectCategories;
 var terminalCommands = window.terminalCommands;
 var faqData = window.faqData;
-
-
-

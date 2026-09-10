@@ -41,6 +41,33 @@ const fallbackTerminalCommands = [
     ]
   },
   {
+    id: "intune-pack",
+    label: "IntunePackager -Package",
+    command: "IntunePackager.exe -Source \"C:\\Apps\\Zoom\" -Setup \"ZoomInstaller.exe\" -AutoDetect",
+    description: "Compile .intunewin bundle and auto-generate Intune PowerShell detection script",
+    output: [
+      '<span class="t-purple">[IntunePackager]</span> Microsoft Win32 Content Prep Engine v2.1',
+      '<span class="t-blue">[INFO]</span> Inspecting source setup binary: ZoomInstaller.exe...',
+      '<span class="t-blue">[INFO]</span> Detecting installer architecture: 64-bit Inno Setup',
+      '<span class="t-green">[DETECTED]</span> Product Version: 6.1.5.42901',
+      '<span class="t-green">[DETECTED]</span> Silent Install Switch: /silent /norestart',
+      '<span class="t-green">[DETECTED]</span> Silent Uninstall Switch: /uninstall /silent',
+      '<span class="t-blue">[INFO]</span> Encrypting payload into Win32 application package...',
+      '  Compressing C:\\Apps\\Zoom [====================] 100%',
+      '  Generating SHA256 integrity block...',
+      '<span class="t-green">[SUCCESS]</span> Created: C:\\Intune\\ZoomInstaller.intunewin (58.4 MB)',
+      '<span class="t-blue">[INFO]</span> Generating PowerShell detection rule: C:\\Intune\\Detect-Zoom.ps1',
+      '',
+      '  # PowerShell Detection Snippet (Exit 0 = Installed, Exit 1 = Not Found)',
+      '  $path = "${env:ProgramFiles}\\Zoom\\bin\\Zoom.exe"',
+      '  if ((Test-Path $path) -and ([System.Diagnostics.FileVersionInfo]::GetVersionInfo($path).FileVersion -ge "6.1.5.42901")) {',
+      '      Write-Host "Installed" ; exit 0',
+      '  } else { exit 1 }',
+      '',
+      '<span class="t-green">[COMPLETED]</span> Package and Intune detection scripts generated in 3.4 seconds.'
+    ]
+  },
+  {
     id: "cw-automate",
     label: "MSPToolkit --cw-automate",
     command: "MSPToolkit.exe --cw-automate --format kv",
@@ -118,6 +145,10 @@ const fallbackFaqData = [
     answer: "No. Both utilities are built as zero-dependency native Windows executables compiled against .NET Framework 4.8 / .NET 10. They run immediately on any standard Windows 10 or Windows 11 installation without requiring runtime packages, Java, Python, or administrative installers."
   },
   {
+    question: "How does Intune App Packager speed up application deployments?",
+    answer: "Instead of manually extracting MSI ProductCodes, crafting detection scripts, and running command-line Content Prep packaging, Intune App Packager inspects the setup file, detects standard silent install switches, auto-compiles the <code>.intunewin</code> payload, and generates verified PowerShell detection scripts ready to paste into Intune."
+  },
+  {
     question: "How do the headless CLI commands integrate into RMM platforms like Ninja, Datto, or Automate?",
     answer: "When executed with arguments (e.g. <code>--scan</code> or <code>--cw-automate</code>), the application suppresses the GUI window and outputs machine-readable JSON or single-line Key=Value pairs directly to standard output (stdout). Standardized RMM exit codes (0 = Healthy, 1 = Warning, 2 = Critical Error) allow RMM alert monitors to triage endpoints automatically."
   },
@@ -128,6 +159,122 @@ const fallbackFaqData = [
   {
     question: "How are destructive actions and Windows UAC elevations handled?",
     answer: "The GUI includes automatic UAC detection with a prominent elevation banner. In interactive mode, destructive fixes (such as DISM restore, network resets, or profile repairs) require explicit confirmation dialogs. In headless CLI mode, explicit action flags (e.g. <code>--all</code> or <code>--actions</code>) are strictly required to execute remediations."
+  }
+];
+
+const fallbackProjectsData = [
+  {
+    id: "msp-toolkit-pro",
+    title: "MSP Toolkit Pro",
+    subtitle: "All-in-one IT diagnostic and automated repair suite for Windows",
+    description: "A production-grade, zero-dependency diagnostic and remediation workstation/server utility engineered for Managed Service Providers (MSPs) and systems engineers. Features 29 specialized tools across 6 categories with both an intuitive WPF interface and a native headless CLI engine with RMM exit codes for NinjaRMM, Datto, and ConnectWise Automate.",
+    category: "desktop-rmm",
+    categoryName: "Desktop & RMM Tools",
+    badge: "Production Ready",
+    badgeType: "accent",
+    featured: true,
+    tags: ["C#", ".NET Framework", "WPF", "Win32 / WMI", "PowerShell", "RMM Engine"],
+    stats: [
+      { label: "Built-In Tools", value: "29" },
+      { label: "Tool Categories", value: "6" },
+      { label: "Dependencies", value: "Zero (.NET)" },
+      { label: "Deployment", value: "Single .exe" }
+    ],
+    links: {
+      github: "https://github.com/CG-Technology/MSPToolkitPro",
+      docs: "https://github.com/CG-Technology/MSPToolkitPro#readme",
+      releases: "https://github.com/CG-Technology/MSPToolkitPro/releases"
+    },
+    features: [
+      "Dual-Mode (GUI & CLI): Interactive WPF UI for technician desktops; headless execution with JSON and Key=Value outputs for automated RMMs",
+      "ConnectWise Automate Integration: Specialized agent health checks, service fixes, and script-variable (@result@) reporting",
+      "Comprehensive Diagnostic Suite: Auto-triage Quick Scan, SMART drive telemetry, BSOD crash dump inspection, BitLocker status, and network route tracing",
+      "System Remediation: Automated DISM & SFC restoration, M365 & Entra ID WAM auth cache reset, corrupt temporary profile (.bak) fixer, and Print Spooler recovery",
+      "Server Tools: Active Directory user & group auditing, backup verification, and DHCP/DNS health reporting",
+      "Export & Audit: Clean HTML, CSV, and JSON reporting with automatic desktop session logging"
+    ],
+    quickSnippet: {
+      language: "powershell",
+      caption: "Headless RMM Automation Example",
+      code: `# Run Quick Scan auto-triage with structured JSON\nMSPToolkit.exe --scan --json\n\n# Headless ConnectWise Automate Agent Repair\nMSPToolkit.exe --cw-automate-repair --all --silent\n\n# Automated DISM & SFC System Repair\nMSPToolkit.exe --run dism-sfc-repair --all`
+    },
+    quickRunCommand: "MSPToolkit.exe --scan --json",
+    quickClone: "git clone https://github.com/CG-Technology/MSPToolkitPro.git"
+  },
+  {
+    id: "it-support-studio",
+    title: "IT Support Studio",
+    subtitle: "White-label endpoint diagnostic companion & visual builder studio",
+    description: "An open-source, white-label desktop diagnostic companion and visual generator for IT departments, Managed Service Providers (MSPs), and corporate helpdesks. Allows IT teams to design branded endpoint desktop widgets with live WYSIWYG previews and compile single self-contained executables with deployment automation for Microsoft Intune and RMMs.",
+    category: "desktop-rmm",
+    categoryName: "Desktop & RMM Tools",
+    badge: "Open Source",
+    badgeType: "success",
+    featured: true,
+    tags: ["C#", "WPF", ".NET 4.8", "Win32 APIs", "PowerShell", "Intune / RMM"],
+    stats: [
+      { label: "Binary Size", value: "~70 KB" },
+      { label: "OS Support", value: "Win 10 / 11" },
+      { label: "Runtime", value: "Native .NET" },
+      { label: "Deployment", value: "Intune / GPO" }
+    ],
+    links: {
+      github: "https://github.com/CG-Technology/ITSupportStudio",
+      docs: "https://github.com/CG-Technology/ITSupportStudio#readme",
+      releases: "https://github.com/CG-Technology/ITSupportStudio/releases"
+    },
+    features: [
+      "Client Support Widget: Real-time hostname, logged-in user, local/external IP, system uptime counter, and active internet connectivity probe",
+      "Instant Helpdesk Access: Branded support phone number, one-click email client launcher, and direct links to remote assistance portals (ScreenConnect, TeamViewer, AnyDesk)",
+      "Technician Productivity: Click-to-copy on all individual fields plus a 'Copy All Info' button for pre-formatted ticket summaries",
+      "Visual Builder Studio: Real-time WYSIWYG editor with live preview for custom logos, colors, custom window titles, and visible field toggles",
+      "One-Click Standalone Compiler: Employs native Roslyn/csc compiler automation to build a single standalone binary with your brand baked directly inside",
+      "Enterprise Ready: Generates automated Microsoft Intune detection and deployment PowerShell scripts out of the box"
+    ],
+    quickSnippet: {
+      language: "powershell",
+      caption: "Builder Studio & Standalone Compiler",
+      code: `# Launch the Visual Builder Studio GUI\n.\\scripts\\Run-Builder.ps1\n\n# Compile a standalone custom branded .exe via CLI\n.\\scripts\\Build-StandaloneExe.ps1 -Config "templates\\modern_slate.json" -Output "build\\CustomSupportInfo.exe"`
+    },
+    quickRunCommand: ".\\scripts\\Run-Builder.ps1",
+    quickClone: "git clone https://github.com/CG-Technology/ITSupportStudio.git"
+  },
+  {
+    id: "intune-app-packager",
+    title: "Intune App Packager",
+    subtitle: "Automated Win32 (.intunewin) packager & PowerShell detection script generator",
+    description: "A specialized packaging engine engineered for systems administrators and MSPs deploying applications via Microsoft Intune. Transforms any EXE or MSI installer into an encrypted .intunewin package, extracts installer signatures, and generates production-ready PowerShell detection scripts with silent install/uninstall parameters in seconds.",
+    category: "automation",
+    categoryName: "Automation & Scripting",
+    badge: "Beta • Active",
+    badgeType: "accent",
+    featured: true,
+    tags: ["PowerShell", "Microsoft Intune", "Win32 App", "C#", "Automation"],
+    stats: [
+      { label: "Packaging Speed", value: "< 5s" },
+      { label: "Detection Rules", value: "Auto-Gen" },
+      { label: "Installer Support", value: "EXE / MSI" },
+      { label: "Intune Prep", value: "Automated" }
+    ],
+    links: {
+      github: "https://github.com/CG-Technology/IntuneAppPackager",
+      docs: "https://github.com/CG-Technology/IntuneAppPackager#readme",
+      releases: "https://github.com/CG-Technology/IntuneAppPackager/releases"
+    },
+    features: [
+      "Automated .intunewin Compilation: Wraps Microsoft Win32 Content Prep Tool with a high-speed GUI and batch pipeline",
+      "Dynamic PowerShell Detection Builder: Auto-generates registry, file version, and MSI ProductCode verification scripts with exit 0/1 logic",
+      "Silent Parameter Catalog: Built-in library of proven install switches for Inno Setup, InstallShield, NSIS, WiX, and MSI",
+      "Requirement Rule Analyzer: Inspects minimum Windows 10/11 build numbers, disk space, and 64-bit architecture constraints",
+      "Batch Directory Processing: Queue multiple software packages and compile ready-to-upload Intune bundles sequentially"
+    ],
+    quickSnippet: {
+      language: "powershell",
+      caption: "Intune Packaging & Detection Generator",
+      code: `# Package Win32 installer and generate detection scripts\nIntunePackager.exe -Source "C:\\Apps\\Zoom" -Setup "ZoomInstaller.exe" -Output "C:\\Intune" -AutoDetect\n\n# Test generated PowerShell detection rule locally\npowershell -ExecutionPolicy Bypass -File .\\DetectionRule.ps1`
+    },
+    quickRunCommand: "IntunePackager.exe -Source \"C:\\Apps\\Zoom\" -Setup \"ZoomInstaller.exe\"",
+    quickClone: "git clone https://github.com/CG-Technology/IntuneAppPackager.git"
   }
 ];
 
@@ -159,7 +306,7 @@ function getProjectsData() {
   if (typeof projectsData !== 'undefined' && Array.isArray(projectsData) && projectsData.length > 0) {
     return projectsData;
   }
-  return [];
+  return fallbackProjectsData;
 }
 
 function getProjectCategories() {
@@ -189,6 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFAQ();
   initContactForm();
   initFooterYear();
+  initDeepLinking();
 });
 
 /* ==========================================================================
@@ -460,8 +608,16 @@ function renderProjects() {
             </svg>
             Details & Specs
           </button>
-          ${project.links.github ? `
-            <a href="${escapeHtml(project.links.github)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+          ${project.links && project.links.releases ? `
+            <a href="${escapeHtml(project.links.releases)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm card-releases-btn" title="Download latest releases / binaries">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Releases
+            </a>
+          ` : ''}
+          ${project.links && project.links.github ? `
+            <a href="${escapeHtml(project.links.github)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm card-github-btn">
               <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
               </svg>
@@ -501,46 +657,80 @@ function renderProjects() {
 }
 
 /* ==========================================================================
-   Project Details Modal
+   Project Details Modal & Deep Linking
    ========================================================================== */
+
+let currentOpenProjectId = null;
 
 function initModal() {
   const backdrop = document.getElementById('project-modal-backdrop');
   const closeBtn = document.getElementById('modal-close-btn');
+  const shareBtn = document.getElementById('modal-share-btn');
 
-  if (!backdrop || !closeBtn) return;
+  if (!backdrop) return;
 
-  closeBtn.addEventListener('click', closeModal);
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => closeModal(true));
+  }
+
   backdrop.addEventListener('click', (e) => {
-    if (e.target === backdrop) closeModal();
+    if (e.target === backdrop) closeModal(true);
   });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && backdrop.classList.contains('open')) {
-      closeModal();
+      closeModal(true);
     }
   });
+
+  if (shareBtn) {
+    shareBtn.addEventListener('click', () => {
+      if (!currentOpenProjectId) return;
+      const shareUrl = `${window.location.origin}${window.location.pathname}#${currentOpenProjectId}`;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          showToast(`Direct link copied: #${currentOpenProjectId}`);
+        }).catch(() => {
+          showToast(`Direct link: #${currentOpenProjectId}`);
+        });
+      } else {
+        showToast(`Direct link: #${currentOpenProjectId}`);
+      }
+    });
+  }
 }
 
-function openProjectModal(projectId) {
+function openProjectModal(projectId, updateHash = true) {
   const projects = getProjectsData();
   const project = projects.find(p => p.id === projectId);
   if (!project) return;
+
+  currentOpenProjectId = projectId;
 
   const backdrop = document.getElementById('project-modal-backdrop');
   const titleEl = document.getElementById('modal-title');
   const subtitleEl = document.getElementById('modal-subtitle');
   const bodyEl = document.getElementById('modal-body-content');
   const githubLinkEl = document.getElementById('modal-github-link');
+  const releasesLinkEl = document.getElementById('modal-releases-link');
 
   titleEl.textContent = project.title;
   subtitleEl.textContent = project.subtitle;
 
-  if (project.links.github) {
+  if (project.links && project.links.github) {
     githubLinkEl.href = project.links.github;
     githubLinkEl.style.display = 'inline-flex';
   } else {
     githubLinkEl.style.display = 'none';
+  }
+
+  if (releasesLinkEl) {
+    if (project.links && project.links.releases) {
+      releasesLinkEl.href = project.links.releases;
+      releasesLinkEl.style.display = 'inline-flex';
+    } else {
+      releasesLinkEl.style.display = 'none';
+    }
   }
 
   let contentHtml = `
@@ -598,13 +788,65 @@ function openProjectModal(projectId) {
 
   backdrop.classList.add('open');
   document.body.style.overflow = 'hidden';
+
+  if (updateHash && window.location.hash !== '#' + projectId) {
+    history.replaceState(null, document.title, window.location.pathname + '#' + projectId);
+  }
 }
 
-function closeModal() {
+function closeModal(clearHash = true) {
   const backdrop = document.getElementById('project-modal-backdrop');
   if (!backdrop) return;
   backdrop.classList.remove('open');
   document.body.style.overflow = '';
+
+  if (clearHash && currentOpenProjectId && window.location.hash === '#' + currentOpenProjectId) {
+    history.replaceState(null, document.title, window.location.pathname + '#projects');
+  }
+  currentOpenProjectId = null;
+}
+
+function initDeepLinking() {
+  function checkUrlHash() {
+    const rawHash = window.location.hash.replace(/^#/, '');
+    if (!rawHash) return;
+
+    // Don't intercept section navigation hashes
+    const standardSections = ['home', 'about', 'projects', 'simulator', 'faq', 'contact', 'header'];
+    if (standardSections.includes(rawHash)) return;
+
+    const projects = getProjectsData();
+    const matched = projects.find(p => p.id === rawHash);
+    if (matched) {
+      const projectsSection = document.getElementById('projects');
+      if (projectsSection) {
+        projectsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+      openProjectModal(matched.id, false);
+    }
+  }
+
+  window.addEventListener('hashchange', () => {
+    const rawHash = window.location.hash.replace(/^#/, '');
+    const standardSections = ['home', 'about', 'projects', 'simulator', 'faq', 'contact', 'header'];
+    if (standardSections.includes(rawHash)) {
+      if (currentOpenProjectId) {
+        closeModal(false);
+      }
+      return;
+    }
+
+    const projects = getProjectsData();
+    const matched = projects.find(p => p.id === rawHash);
+    if (matched) {
+      openProjectModal(matched.id, false);
+    } else if (currentOpenProjectId && !rawHash) {
+      closeModal(false);
+    }
+  });
+
+  // Check once on load after elements are mounted
+  setTimeout(checkUrlHash, 150);
 }
 
 /* ==========================================================================

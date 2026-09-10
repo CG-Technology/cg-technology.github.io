@@ -925,15 +925,45 @@ section {
 .card-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.6rem;
   padding-top: 1.25rem;
   border-top: 1px solid var(--border-subtle);
   margin-top: auto;
 }
 
 .card-actions .btn {
-  flex: 1;
+  flex: 1 1 auto;
+  justify-content: center;
+  font-size: 0.825rem;
+  padding: 0.5rem 0.8rem;
+  min-width: 100px;
+}
+
+.card-actions .view-details-btn {
+  flex: 1 1 100%;
+}
+
+.card-actions .card-releases-btn {
+  flex: 1 1 calc(50% - 0.3rem);
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+
+.card-actions .card-releases-btn:hover {
+  background: var(--accent-subtle);
+  border-color: var(--border-focus);
+  color: var(--accent-light);
+  transform: translateY(-2px);
+}
+
+[data-theme="light"] .card-actions .card-releases-btn:hover {
+  color: var(--accent-primary);
+}
+
+.card-actions .card-github-btn {
+  flex: 1 1 calc(50% - 0.3rem);
 }
 
 /* Empty state when search yields no projects */
@@ -1005,6 +1035,40 @@ section {
   top: 0;
   background: var(--bg-surface);
   z-index: 10;
+}
+
+.modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.modal-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-full);
+  background: var(--bg-surface-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.modal-share-btn:hover {
+  color: var(--accent-light);
+  border-color: var(--border-focus);
+  background: var(--accent-subtle);
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .modal-share-btn:hover {
+  color: var(--accent-primary);
 }
 
 .modal-close-btn {
