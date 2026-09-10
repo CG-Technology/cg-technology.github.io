@@ -1,6 +1,6 @@
 # CG Technology - Systems & Tools Showcase Website
 
-A clean, modern portfolio and project showcase website engineered to display your desktop utilities, RMM tools, and systems management solutions.
+A clean, modern portfolio and project showcase website engineered to display our desktop utilities, RMM tools, and systems management solutions.
 
 Built with a **Slate & Deep Indigo** aesthetic, 3-tier theme selector (Slate, Midnight OLED, Light), dual-mode tab navigation, live interactive CLI terminal simulator, real-time search & category filtering, and zero external build dependencies.
 
