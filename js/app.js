@@ -37,6 +37,29 @@ const fallbackTerminalCommands = [
     ]
   },
   {
+    id: "sentinel-scan",
+    label: "🛡️ Hardware Sentinel",
+    command: "HardwareSentinel.exe --health-scan",
+    description: "Inspect storage SMART health, battery wear, and system crash history",
+    output: [
+      '<span class="t-purple">[HardwareSentinel]</span> Initializing Diagnostic Probes v1.0.0...',
+      '<span class="t-blue">[Storage]</span> Reading SMART telemetry & NVMe health... <span class="t-green">[HEALTHY]</span>',
+      '  Model: NVMe SAMSUNG MZVL21T0 - SMART Status: OK - Free Space: 382.4 GB (62%)',
+      '<span class="t-blue">[Power]</span> Inspecting battery wear and power rails... <span class="t-green">[EXCELLENT]</span>',
+      '  Design Capacity: 75,000 mWh | Full Charge: 72,400 mWh | Wear: 3.5% | Cycles: 48',
+      '<span class="t-blue">[Stability]</span> Checking Windows Minidump and System Crash Logs...',
+      '  Recent BlueScreens (30d): 0 detected | Kernel-Power Warnings: Clean',
+      '<span class="t-blue">[System Load]</span> CPU Load: 14% | Memory: 11.2 GB / 32.0 GB (35%)',
+      '',
+      '<span class="t-green">========================================================</span>',
+      '  <span class="t-green">HARDWARE HEALTH SCORE: 96 / 100 (EXCELLENT)</span>',
+      '  <span class="t-blue">Status: All primary hardware subsystems within optimal parameters.</span>',
+      '<span class="t-green">========================================================</span>',
+      '',
+      '<span class="t-green">[SUCCESS]</span> Standalone HTML report generated: output\\Hardware-Health-Report.html'
+    ]
+  },
+  {
     id: "dism-sfc",
     label: "🛠️ Repair Windows Files",
     command: "MSPToolkit.exe --run dism-sfc-repair --all",
@@ -141,6 +164,7 @@ const fallbackProjectsData = [
     description: "Think of it as a digital mechanic for Windows. It quickly scans your computer to find out why it is running slow, checks whether your hard drive is healthy, and repairs common system crashes and glitches with a single click—no messy installation or extra software required.",
     category: "desktop-rmm",
     categoryName: "PC Repair & Helpdesk",
+    categories: ["desktop-rmm", "diagnostics"],
     badge: "Production Ready",
     badgeType: "accent",
     featured: true,
@@ -246,6 +270,45 @@ const fallbackProjectsData = [
     },
     quickRunCommand: "IntunePackager.exe -Source \"C:\\Apps\\Zoom\" -Setup \"ZoomInstaller.exe\"",
     quickClone: "git clone https://github.com/CG-Technology/IntuneAppPackager.git"
+  },
+  {
+    id: "hardware-sentinel",
+    title: "Hardware Sentinel",
+    subtitle: "Zero-dependency Windows hardware diagnostics & 0–100% PC Health Score",
+    description: "An instant, honest health assessment utility for any Windows PC or laptop. It deep-scans storage drives (SMART & NVMe health), battery cycle wear, system stability, and recent blue screen crashes to calculate an intuitive 0–100% PC Health Score and standalone HTML report.",
+    category: "diagnostics",
+    categoryName: "Hardware & Health",
+    categories: ["diagnostics"],
+    badge: "v1.0.0 Ready",
+    badgeType: "success",
+    featured: true,
+    tags: ["PC Health Score", "Drive SMART & NVMe", "Battery Degradation", "Crash Analysis", "PowerShell & WPF"],
+    stats: [
+      { label: "Health Score", value: "0–100%" },
+      { label: "Diagnostics", value: "4 Modules" },
+      { label: "Installation", value: "None (Portable)" },
+      { label: "HTML Export", value: "Included" }
+    ],
+    links: {
+      github: "https://github.com/CG-Technology/HardwareSentinel",
+      docs: "https://github.com/CG-Technology/HardwareSentinel#readme",
+      releases: "https://github.com/CG-Technology/HardwareSentinel/releases"
+    },
+    features: [
+      "0–100% PC Health Score: Intelligent weighted scoring across storage, battery, stability, and system load",
+      "Deep Storage Diagnostics: Evaluates SMART indicators, NVMe/SSD wear, and alerts on low disk space (<15% warning, <5% critical)",
+      "Battery & Power Wear: Measures battery charge cycles, wear percentage, and gracefully detects desktop AC power",
+      "Crash & BlueScreen History: Inspects minidumps and translates cryptic Windows crash codes into plain English",
+      "Dual Mode Experience: Clean dark WPF dashboard for desktop users, plus scriptable engine for automated IT maintenance",
+      "Standalone Branded Reports: Exports polished, self-contained HTML health summaries ready to email or archive"
+    ],
+    quickSnippet: {
+      language: "powershell",
+      caption: "Run Quick Diagnostic or Generate HTML Report",
+      code: `# Launch the modern dashboard\n.\\Run-Sentinel.ps1\n\n# Run command-line scan and generate HTML report\n.\\src\\HardwareSentinel.ps1 -ExportHtml -HtmlPath "PC-Health-Report.html"`
+    },
+    quickRunCommand: ".\\Run-Sentinel.ps1",
+    quickClone: "git clone https://github.com/CG-Technology/HardwareSentinel.git"
   }
 ];
 
@@ -507,7 +570,9 @@ function renderProjects() {
   if (!grid || !projects.length) return;
 
   const filtered = projects.filter(project => {
-    const matchesCategory = activeCategory === 'all' || project.category === activeCategory;
+    const matchesCategory = activeCategory === 'all' || 
+      project.category === activeCategory || 
+      (Array.isArray(project.categories) && project.categories.includes(activeCategory));
     const matchesSearch = !searchQuery || 
       project.title.toLowerCase().includes(searchQuery) ||
       project.subtitle.toLowerCase().includes(searchQuery) ||
