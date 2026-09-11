@@ -159,10 +159,10 @@ powershell -ExecutionPolicy Bypass -File .\\Detect-Zoom.ps1`
     category: "diagnostics",
     categoryName: "Hardware & Health",
     categories: ["diagnostics"],
-    badge: "v1.0.1 Ready",
+    badge: "v1.0.2 Ready",
     badgeType: "success",
     featured: true,
-    tags: ["PC Health Score", "Drive SMART & NVMe", "Battery Degradation", "Crash Analysis", "PowerShell & WPF"],
+    tags: ["PC Health Score", "Disk Space Consumers", "Top RAM & CPU Apps", "Drive SMART & NVMe", "PowerShell & WPF"],
     stats: [
       { label: "Health Score", value: "0–100%" },
       { label: "Diagnostics", value: "4 Modules" },
@@ -176,7 +176,8 @@ powershell -ExecutionPolicy Bypass -File .\\Detect-Zoom.ps1`
     },
     features: [
       "0–100% PC Health Score: Intelligent weighted scoring across storage, battery, stability, and system load",
-      "Deep Storage Diagnostics: Evaluates SMART indicators, NVMe/SSD wear, and alerts on low disk space (<15% warning, <5% critical)",
+      "Deep Storage & Space Consumers: Evaluates drive SMART indicators and identifies the largest space hogs on C: (Users, Program Files, Virtual Memory)",
+      "Top CPU & Memory Processes: Pinpoints the highest memory-consuming programs (RAM) and active CPU threads in real time",
       "Battery & Power Wear: Measures battery charge cycles, wear percentage, and gracefully detects desktop AC power",
       "Crash & BlueScreen History: Inspects minidumps and translates cryptic Windows crash codes into plain English",
       "Dual Mode Experience: Clean dark WPF dashboard for desktop users, plus scriptable engine for automated IT maintenance",
