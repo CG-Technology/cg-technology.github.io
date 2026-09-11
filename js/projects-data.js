@@ -162,7 +162,7 @@ powershell -ExecutionPolicy Bypass -File .\\Detect-Zoom.ps1`
     badge: "v1.0.3 Ready",
     badgeType: "success",
     featured: true,
-    tags: ["PC Health Score", "TreeSize Disk Tree", "Disk Space Consumers", "Top RAM & CPU Apps", "PowerShell & WPF"],
+    tags: ["PC Health Score", "Disk Visualizer", "Disk Space Consumers", "Top RAM & CPU Apps", "PowerShell & WPF"],
     stats: [
       { label: "Health Score", value: "0–100%" },
       { label: "Diagnostics", value: "4 Modules" },
@@ -176,7 +176,7 @@ powershell -ExecutionPolicy Bypass -File .\\Detect-Zoom.ps1`
     },
     features: [
       "0–100% PC Health Score: Intelligent weighted scoring across storage, battery, stability, and system load",
-      "Interactive TreeSize Disk Analyzer: Click the storage card to launch a visualizer with lazy-loaded folder trees, size bars, and largest files finder (>=50MB)",
+      "Interactive Disk Visualizer: Click the storage card to launch a visualizer with lazy-loaded folder trees, size bars, and largest files finder (>=50MB)",
       "Deep Storage & Space Consumers: Evaluates drive SMART indicators and identifies the largest space hogs on C: (Users, Program Files, Virtual Memory)",
       "Top CPU & Memory Processes: Pinpoints the highest memory-consuming programs (RAM) and active CPU threads in real time",
       "Battery & Power Wear: Measures battery charge cycles, wear percentage, and gracefully detects desktop AC power",
