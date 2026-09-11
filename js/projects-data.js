@@ -159,16 +159,21 @@ powershell -ExecutionPolicy Bypass -File .\\Detect-Zoom.ps1`
     category: "diagnostics",
     categoryName: "Hardware & Health",
     categories: ["diagnostics"],
-    badge: "v1.1.0 Ready",
+    badge: "v1.1.0 Executable",
     badgeType: "success",
     featured: true,
-    tags: ["PC Health Score", "Disk Visualizer", "RAM Slots & GPU", "BitLocker & Security", "Reliability Timeline"],
+    tags: ["Standalone .EXE", "PC Health Score", "Disk Visualizer", "RAM Slots & GPU", "BitLocker & Security"],
     stats: [
       { label: "Health Score", value: "0–100%" },
+      { label: "Format", value: ".EXE & Script" },
       { label: "Diagnostics", value: "6 Modules" },
-      { label: "Trend Tracking", value: "Included" },
-      { label: "Installation", value: "Portable" }
+      { label: "Icon", value: "Multi-Res" }
     ],
+    download: {
+      url: "https://github.com/CG-Technology/HardwareSentinel/releases/download/v1.1.0/HardwareSentinel.exe",
+      label: "Download .exe (56 KB)",
+      primary: true
+    },
     links: {
       github: "https://github.com/CG-Technology/HardwareSentinel",
       docs: "https://github.com/CG-Technology/HardwareSentinel#readme",
@@ -176,6 +181,7 @@ powershell -ExecutionPolicy Bypass -File .\\Detect-Zoom.ps1`
     },
     features: [
       "0–100% PC Health Score & Trend History: Weighted scoring saved to local history to track health changes over time",
+      "Standalone Executable & Custom Icon: Native zero-console .exe with embedded 6-layer high-DPI shield icon",
       "One-Click System Utilities Toolbar: Direct launchers for Reliability Monitor (perfmon /rel), Storage Sense, Resource Monitor, and Task Manager",
       "Hardware Specs & Upgrade Guidance: Detects RAM slots used vs capacity, RAM speed (MHz), GPU model/VRAM, and NVMe vs SATA vs HDD drive types",
       "Security & Windows Baseline Audit: Inspects BitLocker encryption status on C:, pending Windows reboot, and TPM 2.0 / Secure Boot readiness",
@@ -187,14 +193,14 @@ powershell -ExecutionPolicy Bypass -File .\\Detect-Zoom.ps1`
     ],
     quickSnippet: {
       language: "powershell",
-      caption: "Run Quick Diagnostic or Generate HTML Report",
-      code: `# Launch the modern dashboard
-.\\Run-Sentinel.ps1
+      caption: "Run Standalone Executable or Generate HTML Report",
+      code: `# Launch the zero-console standalone executable
+.\\HardwareSentinel.exe
 
-# Run command-line scan and generate HTML report
+# Or run command-line scan and generate HTML report
 .\\src\\HardwareSentinel.ps1 -ExportHtml -HtmlPath "PC-Health-Report.html"`
     },
-    quickRunCommand: ".\\Run-Sentinel.ps1",
+    quickRunCommand: ".\\HardwareSentinel.exe",
     quickClone: "git clone https://github.com/CG-Technology/HardwareSentinel.git"
   }
 ];
@@ -240,23 +246,53 @@ window.terminalCommands = [
     id: "sentinel-scan",
     label: "🛡️ Hardware Sentinel",
     command: "HardwareSentinel.exe --health-scan",
-    description: "Inspect storage SMART health, battery wear, and system crash history",
+    description: "Real-time hardware probes, upgrade intelligence, and PC Health Score",
     output: [
-      '<span class="t-purple">[HardwareSentinel]</span> Initializing Diagnostic Probes v1.0.0...',
+      '<span class="t-purple">[HardwareSentinel]</span> Initializing Diagnostic Probes v1.1.0 (High-DPI GUI Subsystem)...',
       '<span class="t-blue">[Storage]</span> Reading SMART telemetry & NVMe health... <span class="t-green">[HEALTHY]</span>',
-      '  Model: NVMe SAMSUNG MZVL21T0 - SMART Status: OK - Free Space: 382.4 GB (62%)',
-      '<span class="t-blue">[Power]</span> Inspecting battery wear and power rails... <span class="t-green">[EXCELLENT]</span>',
-      '  Design Capacity: 75,000 mWh | Full Charge: 72,400 mWh | Wear: 3.5% | Cycles: 48',
-      '<span class="t-blue">[Stability]</span> Checking Windows Minidump and System Crash Logs...',
+      '  Model: NVMe SAMSUNG MZVL21T0 (NVMe SSD) - Health: 100% OK - Free: 382.4 GB (62%)',
+      '  Security Baseline: BitLocker C: Encrypted (Protected) | Pending Reboot: None',
+      '<span class="t-blue">[Hardware Upgrade Specs]</span>',
+      '  Memory: 32 GB DDR4 @ 3200 MHz (2 of 4 Slots Used - Dual Channel)',
+      '  Graphics: NVIDIA GeForce RTX 3070 (8 GB VRAM) - Driver: Up to date (v551.86)',
+      '<span class="t-blue">[Power]</span> Battery wear and power rail telemetry... <span class="t-green">[EXCELLENT]</span>',
+      '  Design: 75,000 mWh | Full Charge: 72,400 mWh | Wear: 3.5% | Cycles: 48',
+      '<span class="t-blue">[Stability]</span> Windows Minidump & Event Log Diagnostics...',
       '  Recent BlueScreens (30d): 0 detected | Kernel-Power Warnings: Clean',
-      '<span class="t-blue">[System Load]</span> CPU Load: 14% | Memory: 11.2 GB / 32.0 GB (35%)',
+      '<span class="t-blue">[System Load]</span> CPU: 14% | Active RAM: 11.2 GB / 32.0 GB (35%)',
       '',
       '<span class="t-green">========================================================</span>',
       '  <span class="t-green">HARDWARE HEALTH SCORE: 96 / 100 (EXCELLENT)</span>',
-      '  <span class="t-blue">Status: All primary hardware subsystems within optimal parameters.</span>',
+      '  <span class="t-blue">Trend: +2% vs prior scan (%LOCALAPPDATA%\\HardwareSentinel\\history.json)</span>',
       '<span class="t-green">========================================================</span>',
       '',
-      '<span class="t-green">[SUCCESS]</span> Standalone HTML report generated: output\\Hardware-Health-Report.html'
+      '<span class="t-green">[SUCCESS]</span> Standalone HTML report generated: PC-Health-Report.html'
+    ]
+  },
+  {
+    id: "sentinel-tree",
+    label: "🌲 Disk Space Visualizer",
+    command: "HardwareSentinel.exe --disk-tree C:",
+    description: "Hierarchical storage analyzer with folder tree and largest files finder",
+    output: [
+      '<span class="t-purple">[DiskVisualizer]</span> Analyzing Drive C:\\ (NTFS - 476.0 GB Total)...',
+      '<span class="t-blue">[Drive Telemetry]</span> 120.4 GB Used / 355.6 GB Free (25.3% Capacity Used)',
+      '<span class="t-blue">[Hierarchical Folder Tree]</span>',
+      '  ├── <span class="t-yellow">📁 Users</span> ................................... <span class="t-purple">54.2 GB</span> [45.0%]',
+      '  │   └── <span class="t-yellow">📁 VMUser</span> ............................... <span class="t-purple">48.1 GB</span> [39.9%]',
+      '  │       ├── 📁 Downloads ........................ 22.4 GB',
+      '  │       ├── 📁 AppData .......................... 18.2 GB',
+      '  │       └── 📁 Documents ........................  7.5 GB',
+      '  ├── <span class="t-yellow">📁 Program Files</span> ............................ <span class="t-purple">32.5 GB</span> [27.0%]',
+      '  ├── <span class="t-yellow">📁 Windows</span> .................................. <span class="t-purple">24.1 GB</span> [20.0%]',
+      '  └── <span class="t-yellow">📁 ProgramData</span> .............................. <span class="t-purple"> 9.6 GB</span> [ 8.0%]',
+      '',
+      '<span class="t-blue">[Largest Files Finder (&gt;= 50MB)]</span>',
+      '  1. <span class="t-green">pagefile.sys</span> .............................. <span class="t-purple">8.00 GB</span> (System Virtual Memory)',
+      '  2. <span class="t-green">hiberfil.sys</span> .............................. <span class="t-purple">6.38 GB</span> (Windows Fast Startup)',
+      '  3. <span class="t-green">installer_win64.exe</span> ....................... <span class="t-purple">1.42 GB</span> (Downloads)',
+      '',
+      '<span class="t-green">[READY]</span> Interactive tree loaded. Real-time folder search and Recycle Bin enabled.'
     ]
   },
   {

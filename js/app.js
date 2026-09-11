@@ -40,23 +40,53 @@ const fallbackTerminalCommands = [
     id: "sentinel-scan",
     label: "🛡️ Hardware Sentinel",
     command: "HardwareSentinel.exe --health-scan",
-    description: "Inspect storage SMART health, battery wear, and system crash history",
+    description: "Real-time hardware probes, upgrade intelligence, and PC Health Score",
     output: [
-      '<span class="t-purple">[HardwareSentinel]</span> Initializing Diagnostic Probes v1.0.0...',
+      '<span class="t-purple">[HardwareSentinel]</span> Initializing Diagnostic Probes v1.1.0 (High-DPI GUI Subsystem)...',
       '<span class="t-blue">[Storage]</span> Reading SMART telemetry & NVMe health... <span class="t-green">[HEALTHY]</span>',
-      '  Model: NVMe SAMSUNG MZVL21T0 - SMART Status: OK - Free Space: 382.4 GB (62%)',
-      '<span class="t-blue">[Power]</span> Inspecting battery wear and power rails... <span class="t-green">[EXCELLENT]</span>',
-      '  Design Capacity: 75,000 mWh | Full Charge: 72,400 mWh | Wear: 3.5% | Cycles: 48',
-      '<span class="t-blue">[Stability]</span> Checking Windows Minidump and System Crash Logs...',
+      '  Model: NVMe SAMSUNG MZVL21T0 (NVMe SSD) - Health: 100% OK - Free: 382.4 GB (62%)',
+      '  Security Baseline: BitLocker C: Encrypted (Protected) | Pending Reboot: None',
+      '<span class="t-blue">[Hardware Upgrade Specs]</span>',
+      '  Memory: 32 GB DDR4 @ 3200 MHz (2 of 4 Slots Used - Dual Channel)',
+      '  Graphics: NVIDIA GeForce RTX 3070 (8 GB VRAM) - Driver: Up to date (v551.86)',
+      '<span class="t-blue">[Power]</span> Battery wear and power rail telemetry... <span class="t-green">[EXCELLENT]</span>',
+      '  Design: 75,000 mWh | Full Charge: 72,400 mWh | Wear: 3.5% | Cycles: 48',
+      '<span class="t-blue">[Stability]</span> Windows Minidump & Event Log Diagnostics...',
       '  Recent BlueScreens (30d): 0 detected | Kernel-Power Warnings: Clean',
-      '<span class="t-blue">[System Load]</span> CPU Load: 14% | Memory: 11.2 GB / 32.0 GB (35%)',
+      '<span class="t-blue">[System Load]</span> CPU: 14% | Active RAM: 11.2 GB / 32.0 GB (35%)',
       '',
       '<span class="t-green">========================================================</span>',
       '  <span class="t-green">HARDWARE HEALTH SCORE: 96 / 100 (EXCELLENT)</span>',
-      '  <span class="t-blue">Status: All primary hardware subsystems within optimal parameters.</span>',
+      '  <span class="t-blue">Trend: +2% vs prior scan (%LOCALAPPDATA%\\HardwareSentinel\\history.json)</span>',
       '<span class="t-green">========================================================</span>',
       '',
-      '<span class="t-green">[SUCCESS]</span> Standalone HTML report generated: output\\Hardware-Health-Report.html'
+      '<span class="t-green">[SUCCESS]</span> Standalone HTML report generated: PC-Health-Report.html'
+    ]
+  },
+  {
+    id: "sentinel-tree",
+    label: "🌲 Disk Space Visualizer",
+    command: "HardwareSentinel.exe --disk-tree C:",
+    description: "Hierarchical storage analyzer with folder tree and largest files finder",
+    output: [
+      '<span class="t-purple">[DiskVisualizer]</span> Analyzing Drive C:\\ (NTFS - 476.0 GB Total)...',
+      '<span class="t-blue">[Drive Telemetry]</span> 120.4 GB Used / 355.6 GB Free (25.3% Capacity Used)',
+      '<span class="t-blue">[Hierarchical Folder Tree]</span>',
+      '  ├── <span class="t-yellow">📁 Users</span> ................................... <span class="t-purple">54.2 GB</span> [45.0%]',
+      '  │   └── <span class="t-yellow">📁 VMUser</span> ............................... <span class="t-purple">48.1 GB</span> [39.9%]',
+      '  │       ├── 📁 Downloads ........................ 22.4 GB',
+      '  │       ├── 📁 AppData .......................... 18.2 GB',
+      '  │       └── 📁 Documents ........................  7.5 GB',
+      '  ├── <span class="t-yellow">📁 Program Files</span> ............................ <span class="t-purple">32.5 GB</span> [27.0%]',
+      '  ├── <span class="t-yellow">📁 Windows</span> .................................. <span class="t-purple">24.1 GB</span> [20.0%]',
+      '  └── <span class="t-yellow">📁 ProgramData</span> .............................. <span class="t-purple"> 9.6 GB</span> [ 8.0%]',
+      '',
+      '<span class="t-blue">[Largest Files Finder (&gt;= 50MB)]</span>',
+      '  1. <span class="t-green">pagefile.sys</span> .............................. <span class="t-purple">8.00 GB</span> (System Virtual Memory)',
+      '  2. <span class="t-green">hiberfil.sys</span> .............................. <span class="t-purple">6.38 GB</span> (Windows Fast Startup)',
+      '  3. <span class="t-green">installer_win64.exe</span> ....................... <span class="t-purple">1.42 GB</span> (Downloads)',
+      '',
+      '<span class="t-green">[READY]</span> Interactive tree loaded. Real-time folder search and Recycle Bin enabled.'
     ]
   },
   {
@@ -279,36 +309,44 @@ const fallbackProjectsData = [
     category: "diagnostics",
     categoryName: "Hardware & Health",
     categories: ["diagnostics"],
-    badge: "v1.0.2 Ready",
+    badge: "v1.1.0 Executable",
     badgeType: "success",
     featured: true,
-    tags: ["PC Health Score", "Disk Space Consumers", "Top RAM & CPU Apps", "Drive SMART & NVMe", "PowerShell & WPF"],
+    tags: ["Standalone .EXE", "PC Health Score", "Disk Visualizer", "RAM Slots & GPU", "BitLocker & Security"],
     stats: [
       { label: "Health Score", value: "0–100%" },
-      { label: "Diagnostics", value: "4 Modules" },
-      { label: "Installation", value: "None (Portable)" },
-      { label: "HTML Export", value: "Included" }
+      { label: "Format", value: ".EXE & Script" },
+      { label: "Diagnostics", value: "6 Modules" },
+      { label: "Icon", value: "Multi-Res" }
     ],
+    download: {
+      url: "https://github.com/CG-Technology/HardwareSentinel/releases/download/v1.1.0/HardwareSentinel.exe",
+      label: "Download .exe (56 KB)",
+      primary: true
+    },
     links: {
       github: "https://github.com/CG-Technology/HardwareSentinel",
       docs: "https://github.com/CG-Technology/HardwareSentinel#readme",
       releases: "https://github.com/CG-Technology/HardwareSentinel/releases"
     },
     features: [
-      "0–100% PC Health Score: Intelligent weighted scoring across storage, battery, stability, and system load",
+      "0–100% PC Health Score & Trend History: Weighted scoring saved to local history to track health changes over time",
+      "Standalone Executable & Custom Icon: Native zero-console .exe with embedded 6-layer high-DPI shield icon",
+      "One-Click System Utilities Toolbar: Direct launchers for Reliability Monitor (perfmon /rel), Storage Sense, Resource Monitor, and Task Manager",
+      "Hardware Specs & Upgrade Guidance: Detects RAM slots used vs capacity, RAM speed (MHz), GPU model/VRAM, and NVMe vs SATA vs HDD drive types",
+      "Security & Windows Baseline Audit: Inspects BitLocker encryption status on C:, pending Windows reboot, and TPM 2.0 / Secure Boot readiness",
+      "Interactive Disk Visualizer: Real-time folder search/filter, lazy-loaded folder trees, largest files finder (>=50MB), and safe Recycle Bin deletion",
       "Deep Storage & Space Consumers: Evaluates drive SMART indicators and identifies the largest space hogs on C: (Users, Program Files, Virtual Memory)",
       "Top CPU & Memory Processes: Pinpoints the highest memory-consuming programs (RAM) and active CPU threads in real time",
       "Battery & Power Wear: Measures battery charge cycles, wear percentage, and gracefully detects desktop AC power",
-      "Crash & BlueScreen History: Inspects minidumps and translates cryptic Windows crash codes into plain English",
-      "Dual Mode Experience: Clean dark WPF dashboard for desktop users, plus scriptable engine for automated IT maintenance",
-      "Standalone Branded Reports: Exports polished, self-contained HTML health summaries ready to email or archive"
+      "Crash & BlueScreen History: Inspects minidumps and translates cryptic Windows crash codes into plain English"
     ],
     quickSnippet: {
       language: "powershell",
-      caption: "Run Quick Diagnostic or Generate HTML Report",
-      code: `# Launch the modern dashboard\n.\\Run-Sentinel.ps1\n\n# Run command-line scan and generate HTML report\n.\\src\\HardwareSentinel.ps1 -ExportHtml -HtmlPath "PC-Health-Report.html"`
+      caption: "Run Standalone Executable or Generate HTML Report",
+      code: `# Launch the zero-console standalone executable\n.\\HardwareSentinel.exe\n\n# Or run command-line scan and generate HTML report\n.\\src\\HardwareSentinel.ps1 -ExportHtml -HtmlPath "PC-Health-Report.html"`
     },
-    quickRunCommand: ".\\Run-Sentinel.ps1",
+    quickRunCommand: ".\\HardwareSentinel.exe",
     quickClone: "git clone https://github.com/CG-Technology/HardwareSentinel.git"
   }
 ];
@@ -367,6 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initNavigation();
   initProjectsSection();
+  initHealthCalculator();
   initTerminalSimulator();
   initFAQ();
   initContactForm();
@@ -639,6 +678,14 @@ function renderProjects() {
         </div>
 
         <div class="card-actions">
+          ${project.download ? `
+            <a href="${escapeHtml(project.download.url)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm card-download-btn" title="${escapeHtml(project.download.label)}">
+              <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              ${escapeHtml(project.download.label)}
+            </a>
+          ` : ''}
           <button class="btn btn-secondary btn-sm view-details-btn" data-project-id="${escapeHtml(project.id)}">
             <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -810,7 +857,103 @@ function openProjectModal(projectId, updateHash = true) {
     `;
   }
 
+  if (project.id === 'hardware-sentinel') {
+    contentHtml += `
+      <div class="modal-ui-preview">
+        <div class="modal-ui-preview-header">
+          <div class="modal-ui-preview-title">
+            <span style="font-size: 1.1rem;">🛡️</span>
+            <span>Hardware Sentinel UI Previews</span>
+          </div>
+          <div style="display: flex; gap: 0.35rem;">
+            <button type="button" class="modal-ui-tab-btn active" data-preview-tab="dash">Dashboard View</button>
+            <button type="button" class="modal-ui-tab-btn" data-preview-tab="tree">Disk Visualizer</button>
+          </div>
+        </div>
+        <div class="modal-ui-screen-body" id="modal-preview-body">
+          <div class="dash-preview-content" id="preview-dash-content">
+            <div style="background: #0B0F19; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 1.25rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <div style="width: 22px; height: 22px; border-radius: 4px; background: #06B6D4; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; color: #000;">🛡️</div>
+                  <strong style="color: #F8FAFC; font-size: 0.95rem;">Hardware Sentinel</strong>
+                  <span style="font-size: 0.75rem; color: #64748B;">PC Health &amp; Diagnostics</span>
+                </div>
+                <span style="background: rgba(16, 185, 129, 0.2); color: #34D399; font-size: 0.7rem; font-weight: bold; padding: 0.2rem 0.5rem; border-radius: 4px;">v1.1.0 EXE</span>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; align-items: center;">
+                <div style="text-align: center; padding: 1rem; background: #111827; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+                  <div style="font-size: 2.5rem; font-weight: 800; color: #10B981; line-height: 1;">96%</div>
+                  <div style="font-size: 0.75rem; font-weight: bold; color: #34D399; letter-spacing: 0.05em; margin-top: 0.35rem;">EXCELLENT</div>
+                  <div style="font-size: 0.7rem; color: #64748B; margin-top: 0.2rem;">+2% vs prior scan</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.78rem;">
+                  <div style="background: #111827; padding: 0.6rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                    <div style="color: #64748B; font-size: 0.7rem;">Storage (SMART)</div>
+                    <div style="color: #F1F5F9; font-weight: 600;">NVMe 100% OK</div>
+                    <div style="color: #10B981; font-size: 0.7rem;">382 GB Free (62%)</div>
+                  </div>
+                  <div style="background: #111827; padding: 0.6rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                    <div style="color: #64748B; font-size: 0.7rem;">Memory &amp; Slots</div>
+                    <div style="color: #F1F5F9; font-weight: 600;">32 GB DDR4</div>
+                    <div style="color: #38BDF8; font-size: 0.7rem;">2 of 4 Slots Used</div>
+                  </div>
+                  <div style="background: #111827; padding: 0.6rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                    <div style="color: #64748B; font-size: 0.7rem;">Battery Telemetry</div>
+                    <div style="color: #F1F5F9; font-weight: 600;">96.5% Health</div>
+                    <div style="color: #10B981; font-size: 0.7rem;">48 Cycles • AC Wall</div>
+                  </div>
+                  <div style="background: #111827; padding: 0.6rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                    <div style="color: #64748B; font-size: 0.7rem;">System Stability</div>
+                    <div style="color: #F1F5F9; font-weight: 600;">0 Crashes (30d)</div>
+                    <div style="color: #34D399; font-size: 0.7rem;">BitLocker Protected</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tree-preview-content" id="preview-tree-content" style="display: none;">
+            <div style="background: #0B0F19; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 1.25rem; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 0.8rem;">
+              <div style="color: #64748B; margin-bottom: 0.6rem; font-family: sans-serif; display: flex; justify-content: space-between;">
+                <span>Drive C:\\ Hierarchy</span>
+                <span style="color: #10B981;">120.4 GB Used / 476.0 GB Total</span>
+              </div>
+              <div style="color: #F1F5F9; line-height: 1.7;">
+                <div>📁 <span style="color: #FBBF24;">C:\\</span> [120.4 GB] <span style="color: #64748B;">(100%)</span></div>
+                <div style="padding-left: 1.2rem;">├── 📁 <span style="color: #FBBF24;">Users</span> [54.2 GB] <span style="color: #818CF8;">[45.0%]</span></div>
+                <div style="padding-left: 2.4rem;">└── 📁 <span style="color: #FBBF24;">VMUser</span> [48.1 GB]</div>
+                <div style="padding-left: 3.6rem;">├── 📁 Downloads [22.4 GB]</div>
+                <div style="padding-left: 3.6rem;">└── 📁 AppData [18.2 GB]</div>
+                <div style="padding-left: 1.2rem;">├── 📁 <span style="color: #FBBF24;">Program Files</span> [32.5 GB] <span style="color: #818CF8;">[27.0%]</span></div>
+                <div style="padding-left: 1.2rem;">├── 📁 <span style="color: #FBBF24;">Windows</span> [24.1 GB] <span style="color: #818CF8;">[20.0%]</span></div>
+                <div style="padding-left: 1.2rem;">└── 📁 <span style="color: #FBBF24;">ProgramData</span> [9.6 GB] <span style="color: #818CF8;">[8.0%]</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   bodyEl.innerHTML = contentHtml;
+
+  // Bind tab buttons inside modal if present
+  bodyEl.querySelectorAll('.modal-ui-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      bodyEl.querySelectorAll('.modal-ui-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const target = btn.getAttribute('data-preview-tab');
+      const dashEl = bodyEl.querySelector('#preview-dash-content');
+      const treeEl = bodyEl.querySelector('#preview-tree-content');
+      if (target === 'tree') {
+        if (dashEl) dashEl.style.display = 'none';
+        if (treeEl) treeEl.style.display = 'block';
+      } else {
+        if (dashEl) dashEl.style.display = 'block';
+        if (treeEl) treeEl.style.display = 'none';
+      }
+    });
+  });
 
   const copyBtn = bodyEl.querySelector('.copy-snippet-btn');
   if (copyBtn && project.quickSnippet) {
@@ -849,7 +992,7 @@ function initDeepLinking() {
     if (!rawHash) return;
 
     // Don't intercept section navigation hashes
-    const standardSections = ['home', 'about', 'projects', 'simulator', 'faq', 'contact', 'header'];
+    const standardSections = ['home', 'about', 'projects', 'calculator', 'simulator', 'faq', 'contact', 'header'];
     if (standardSections.includes(rawHash)) return;
 
     const projects = getProjectsData();
@@ -865,7 +1008,7 @@ function initDeepLinking() {
 
   window.addEventListener('hashchange', () => {
     const rawHash = window.location.hash.replace(/^#/, '');
-    const standardSections = ['home', 'about', 'projects', 'simulator', 'faq', 'contact', 'header'];
+    const standardSections = ['home', 'about', 'projects', 'calculator', 'simulator', 'faq', 'contact', 'header'];
     if (standardSections.includes(rawHash)) {
       if (currentOpenProjectId) {
         closeModal(false);
@@ -884,6 +1027,272 @@ function initDeepLinking() {
 
   // Check once on load after elements are mounted
   setTimeout(checkUrlHash, 150);
+}
+
+/* ==========================================================================
+   Interactive PC Health Score Calculator Logic
+   ========================================================================== */
+
+function initHealthCalculator() {
+  const sliderDisk = document.getElementById('slider-disk');
+  const sliderCrashes = document.getElementById('slider-crashes');
+  const sliderBattery = document.getElementById('slider-battery');
+  const sliderLoad = document.getElementById('slider-load');
+  const btnModeLaptop = document.getElementById('btn-mode-laptop');
+  const btnModeDesktop = document.getElementById('btn-mode-desktop');
+  const btnReset = document.getElementById('calc-reset-btn');
+
+  if (!sliderDisk || !sliderCrashes || !sliderBattery || !sliderLoad) return;
+
+  const valDiskGb = document.getElementById('val-disk-gb');
+  const valDiskPct = document.getElementById('val-disk-pct');
+  const valCrashesText = document.getElementById('val-crashes-text');
+  const valBatteryText = document.getElementById('val-battery-text');
+  const valLoadText = document.getElementById('val-load-text');
+
+  const gaugeFill = document.getElementById('calc-gauge-fill');
+  const scoreNumberEl = document.getElementById('calc-score-number');
+  const scoreGradeEl = document.getElementById('calc-score-grade');
+
+  const ptsStorageEl = document.getElementById('pts-storage');
+  const ptsStabilityEl = document.getElementById('pts-stability');
+  const ptsBatteryEl = document.getElementById('pts-battery');
+  const ptsLoadEl = document.getElementById('pts-load');
+
+  const diagBadgeEl = document.getElementById('calc-diag-badge');
+  const diagMsgEl = document.getElementById('calc-diag-msg');
+
+  let isDesktopMode = false;
+
+  const CIRCUMFERENCE = 515.22; // 2 * Math.PI * 82
+
+  function calculateScore() {
+    const diskPct = parseInt(sliderDisk.value, 10);
+    const crashes = parseInt(sliderCrashes.value, 10);
+    const batteryWear = parseInt(sliderBattery.value, 10);
+    const loadPct = parseInt(sliderLoad.value, 10);
+
+    // 1. Storage Score (Max 35)
+    let ptsStorage = 35;
+    if (diskPct < 5) {
+      ptsStorage = 2;
+    } else if (diskPct < 10) {
+      ptsStorage = 10;
+    } else if (diskPct < 15) {
+      ptsStorage = 20;
+    } else if (diskPct < 25) {
+      ptsStorage = 28;
+    } else {
+      ptsStorage = 35;
+    }
+
+    // 2. Stability Score (Max 25)
+    let ptsStability = 25;
+    if (crashes === 0) {
+      ptsStability = 25;
+    } else if (crashes === 1) {
+      ptsStability = 17;
+    } else if (crashes === 2) {
+      ptsStability = 9;
+    } else {
+      ptsStability = 0;
+    }
+
+    // 3. Power / Battery Score (Max 20)
+    let ptsBattery = 20;
+    if (isDesktopMode) {
+      ptsBattery = 20;
+    } else {
+      if (batteryWear <= 10) {
+        ptsBattery = 20;
+      } else if (batteryWear <= 20) {
+        ptsBattery = 17;
+      } else if (batteryWear <= 30) {
+        ptsBattery = 13;
+      } else if (batteryWear <= 40) {
+        ptsBattery = 8;
+      } else {
+        ptsBattery = 3;
+      }
+    }
+
+    // 4. System Load Score (Max 20)
+    let ptsLoad = 20;
+    if (loadPct <= 40) {
+      ptsLoad = 20;
+    } else if (loadPct <= 65) {
+      ptsLoad = 17;
+    } else if (loadPct <= 85) {
+      ptsLoad = 12;
+    } else {
+      ptsLoad = 6;
+    }
+
+    const totalScore = Math.max(0, Math.min(100, ptsStorage + ptsStability + ptsBattery + ptsLoad));
+
+    // Update Slider Value Texts
+    const totalDiskSize = 476.0;
+    const freeGb = ((diskPct / 100) * totalDiskSize).toFixed(1);
+    if (valDiskGb) valDiskGb.textContent = `${freeGb} GB free`;
+    if (valDiskPct) valDiskPct.textContent = `${diskPct}%`;
+
+    if (valCrashesText) {
+      valCrashesText.textContent = crashes === 0 ? '0 Crashes (Clean)' : (crashes === 1 ? '1 Crash (30d)' : `${crashes} Crashes (30d)`);
+      valCrashesText.style.color = crashes === 0 ? 'var(--accent-light)' : (crashes <= 2 ? '#F59E0B' : '#EF4444');
+    }
+
+    if (valBatteryText) {
+      if (isDesktopMode) {
+        valBatteryText.textContent = 'Desktop AC (100%)';
+        valBatteryText.style.color = '#10B981';
+      } else {
+        valBatteryText.textContent = `${batteryWear}% Wear`;
+        valBatteryText.style.color = batteryWear <= 15 ? 'var(--accent-light)' : (batteryWear <= 30 ? '#F59E0B' : '#EF4444');
+      }
+    }
+
+    if (valLoadText) {
+      valLoadText.textContent = `${loadPct}% Load`;
+      valLoadText.style.color = loadPct <= 50 ? 'var(--accent-light)' : (loadPct <= 80 ? '#F59E0B' : '#EF4444');
+    }
+
+    // Update Subsystem Points
+    if (ptsStorageEl) ptsStorageEl.textContent = `${ptsStorage} / 35`;
+    if (ptsStabilityEl) ptsStabilityEl.textContent = `${ptsStability} / 25`;
+    if (ptsBatteryEl) ptsBatteryEl.textContent = isDesktopMode ? '20 / 20 (AC)' : `${ptsBattery} / 20`;
+    if (ptsLoadEl) ptsLoadEl.textContent = `${ptsLoad} / 20`;
+
+    // Grade and Colors
+    let grade = 'EXCELLENT';
+    let strokeColor = '#10B981';
+    let badgeBg = 'rgba(16, 185, 129, 0.15)';
+    let badgeText = '#34D399';
+
+    if (totalScore >= 90) {
+      grade = 'EXCELLENT';
+      strokeColor = '#10B981';
+      badgeBg = 'rgba(16, 185, 129, 0.15)';
+      badgeText = '#34D399';
+    } else if (totalScore >= 80) {
+      grade = 'GOOD';
+      strokeColor = '#06B6D4';
+      badgeBg = 'rgba(6, 182, 212, 0.15)';
+      badgeText = '#38BDF8';
+    } else if (totalScore >= 65) {
+      grade = 'FAIR';
+      strokeColor = '#F59E0B';
+      badgeBg = 'rgba(245, 158, 11, 0.15)';
+      badgeText = '#FBBF24';
+    } else {
+      grade = 'CRITICAL';
+      strokeColor = '#EF4444';
+      badgeBg = 'rgba(239, 68, 68, 0.15)';
+      badgeText = '#F87171';
+    }
+
+    // Animate Gauge Fill
+    if (gaugeFill) {
+      const offset = CIRCUMFERENCE - (CIRCUMFERENCE * totalScore / 100);
+      gaugeFill.style.strokeDashoffset = offset;
+      gaugeFill.style.stroke = strokeColor;
+    }
+
+    if (scoreNumberEl) {
+      scoreNumberEl.textContent = totalScore;
+      scoreNumberEl.style.color = strokeColor;
+    }
+
+    if (scoreGradeEl) {
+      scoreGradeEl.textContent = grade;
+      scoreGradeEl.style.backgroundColor = badgeBg;
+      scoreGradeEl.style.color = badgeText;
+      scoreGradeEl.style.borderColor = strokeColor;
+    }
+
+    // Dynamic Diagnosis Message
+    let diagTitle = 'Optimal System Health';
+    let diagMessage = 'All major hardware subsystems are performing within ideal parameters. Thermal headroom and storage reserves are healthy.';
+
+    const issues = [];
+    if (diskPct < 15) {
+      issues.push(`Drive C: is critically low on space (${diskPct}% free). Run Disk Cleanup or Hardware Sentinel's Disk Visualizer to clear space hogs.`);
+    } else if (diskPct < 25) {
+      issues.push(`Drive C: free space is narrowing (${diskPct}% free). Routine cleanup recommended.`);
+    }
+
+    if (crashes >= 3) {
+      issues.push(`Severe instability detected: ${crashes} BlueScreen crashes logged in the past 30 days. Hardware Sentinel can decode these BugCheck minidumps.`);
+    } else if (crashes >= 1) {
+      issues.push(`${crashes} recent crash recorded. Check reliability timeline and driver ages.`);
+    }
+
+    if (!isDesktopMode && batteryWear > 30) {
+      issues.push(`Battery wear has degraded by ${batteryWear}%. Expected runtime on battery is significantly diminished.`);
+    }
+
+    if (loadPct > 80) {
+      issues.push(`Elevated processor and RAM utilization (${loadPct}%). Top background processes are consuming system responsiveness.`);
+    }
+
+    if (issues.length > 0) {
+      if (totalScore < 65) {
+        diagTitle = 'Immediate Attention Recommended';
+      } else {
+        diagTitle = 'Proactive Maintenance Suggested';
+      }
+      diagMessage = issues.join(' ');
+    }
+
+    if (diagBadgeEl) {
+      diagBadgeEl.textContent = diagTitle;
+      diagBadgeEl.style.color = badgeText;
+    }
+    if (diagMsgEl) {
+      diagMsgEl.textContent = diagMessage;
+    }
+  }
+
+  // Event Listeners
+  [sliderDisk, sliderCrashes, sliderBattery, sliderLoad].forEach(slider => {
+    slider.addEventListener('input', calculateScore);
+  });
+
+  if (btnModeLaptop && btnModeDesktop) {
+    btnModeLaptop.addEventListener('click', () => {
+      isDesktopMode = false;
+      btnModeLaptop.classList.add('active');
+      btnModeDesktop.classList.remove('active');
+      sliderBattery.disabled = false;
+      sliderBattery.style.opacity = '1';
+      calculateScore();
+    });
+
+    btnModeDesktop.addEventListener('click', () => {
+      isDesktopMode = true;
+      btnModeDesktop.classList.add('active');
+      btnModeLaptop.classList.remove('active');
+      sliderBattery.disabled = true;
+      sliderBattery.style.opacity = '0.4';
+      calculateScore();
+    });
+  }
+
+  if (btnReset) {
+    btnReset.addEventListener('click', () => {
+      sliderDisk.value = 75;
+      sliderCrashes.value = 0;
+      sliderBattery.value = 4;
+      sliderLoad.value = 24;
+      if (isDesktopMode && btnModeLaptop) {
+        btnModeLaptop.click();
+      } else {
+        calculateScore();
+      }
+      showToast('Calculator reset to healthy baseline');
+    });
+  }
+
+  calculateScore();
 }
 
 /* ==========================================================================

@@ -23,7 +23,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <!-- Site Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css?v=12" />
 </head>
 <body>
 
@@ -51,6 +51,7 @@
           <li><a href="#home" class="nav-link active">Home</a></li>
           <li><a href="#about" class="nav-link">About</a></li>
           <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#calculator" class="nav-link">Health Calculator</a></li>
           <li><a href="#simulator" class="nav-link">Live Demo</a></li>
           <li><a href="#faq" class="nav-link">FAQ</a></li>
           <li><a href="#contact" class="nav-link">Contact</a></li>
@@ -316,6 +317,185 @@
     </section>
 
     <!-- ==========================================================================
+         Interactive PC Health Score Calculator Section
+         ========================================================================== -->
+    <section class="calculator-section" id="calculator">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">INTERACTIVE HEALTH ALGORITHM</span>
+          <h2 class="section-title">PC Health Score Calculator</h2>
+          <p class="section-description">
+            Test how Hardware Sentinel's composite diagnostic scoring works in real time. Adjust the hardware telemetry sliders below to simulate different PC conditions and see the weighted score calculate live.
+          </p>
+        </div>
+
+        <div class="calc-container">
+          <!-- Controls Panel -->
+          <div class="calc-controls-card">
+            <div class="calc-controls-header">
+              <h3 class="calc-card-title">
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+                Hardware Diagnostic Parameters
+              </h3>
+              <button id="calc-reset-btn" class="calc-reset-btn" title="Reset to healthy defaults">Reset Defaults</button>
+            </div>
+
+            <!-- Slider 1: Drive C: Free Space -->
+            <div class="calc-slider-group">
+              <div class="calc-slider-header">
+                <label for="slider-disk" class="calc-slider-label">
+                  <span class="calc-param-icon disk">💾</span>
+                  <span>Drive C: Free Space</span>
+                </label>
+                <div class="calc-slider-val-wrap">
+                  <span id="val-disk-gb" class="calc-slider-val-sub">355.6 GB free</span>
+                  <span id="val-disk-pct" class="calc-slider-val">75%</span>
+                </div>
+              </div>
+              <input type="range" id="slider-disk" min="2" max="95" value="75" step="1" class="calc-range-input" />
+              <div class="calc-slider-hints">
+                <span>Critical (&lt;10%)</span>
+                <span>Warning (15%)</span>
+                <span>Healthy (25%+)</span>
+              </div>
+            </div>
+
+            <!-- Slider 2: BlueScreen Crashes -->
+            <div class="calc-slider-group">
+              <div class="calc-slider-header">
+                <label for="slider-crashes" class="calc-slider-label">
+                  <span class="calc-param-icon crash">💥</span>
+                  <span>BlueScreen Crashes (Last 30 Days)</span>
+                </label>
+                <div class="calc-slider-val-wrap">
+                  <span id="val-crashes-text" class="calc-slider-val">0 Crashes</span>
+                </div>
+              </div>
+              <input type="range" id="slider-crashes" min="0" max="6" value="0" step="1" class="calc-range-input" />
+              <div class="calc-slider-hints">
+                <span>0 (Clean)</span>
+                <span>1–2 (Minor)</span>
+                <span>3+ (Critical Instability)</span>
+              </div>
+            </div>
+
+            <!-- Slider 3: Battery Wear & Power Mode -->
+            <div class="calc-slider-group">
+              <div class="calc-slider-header">
+                <label for="slider-battery" class="calc-slider-label">
+                  <span class="calc-param-icon battery">🔋</span>
+                  <span>Battery Degradation / Wear</span>
+                </label>
+                <div class="calc-slider-val-wrap">
+                  <span id="val-battery-text" class="calc-slider-val">4% Wear</span>
+                </div>
+              </div>
+              <input type="range" id="slider-battery" min="0" max="50" value="4" step="1" class="calc-range-input" />
+              <div class="calc-power-mode-wrap">
+                <button type="button" id="btn-mode-laptop" class="calc-power-mode-btn active">💻 Laptop (Battery)</button>
+                <button type="button" id="btn-mode-desktop" class="calc-power-mode-btn">🖥️ Desktop (AC Wall Power)</button>
+              </div>
+            </div>
+
+            <!-- Slider 4: System Load (CPU & RAM) -->
+            <div class="calc-slider-group">
+              <div class="calc-slider-header">
+                <label for="slider-load" class="calc-slider-label">
+                  <span class="calc-param-icon load">⚡</span>
+                  <span>System CPU &amp; RAM Utilization</span>
+                </label>
+                <div class="calc-slider-val-wrap">
+                  <span id="val-load-text" class="calc-slider-val">24% Load</span>
+                </div>
+              </div>
+              <input type="range" id="slider-load" min="5" max="98" value="24" step="1" class="calc-range-input" />
+              <div class="calc-slider-hints">
+                <span>Normal (&lt;50%)</span>
+                <span>Elevated (75%)</span>
+                <span>Bottleneck (90%+)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Score & Telemetry Display -->
+          <div class="calc-gauge-card">
+            <div class="calc-gauge-wrapper">
+              <svg class="calc-gauge-svg" viewBox="0 0 200 200" width="190" height="190">
+                <circle class="calc-gauge-track" cx="100" cy="100" r="82" />
+                <circle class="calc-gauge-fill" id="calc-gauge-fill" cx="100" cy="100" r="82" />
+              </svg>
+              <div class="calc-gauge-content">
+                <span class="calc-gauge-num" id="calc-score-number">97</span>
+                <span class="calc-gauge-scale">/ 100</span>
+                <span class="calc-gauge-grade" id="calc-score-grade">EXCELLENT</span>
+              </div>
+            </div>
+
+            <!-- 4 Weighted Subsystem Scores -->
+            <div class="calc-subsystems-grid">
+              <div class="calc-sub-item">
+                <div class="calc-sub-icon">💾</div>
+                <div class="calc-sub-info">
+                  <span class="calc-sub-name">Storage</span>
+                  <span class="calc-sub-weight">Weight: 35%</span>
+                </div>
+                <span class="calc-sub-pts" id="pts-storage">35 / 35</span>
+              </div>
+
+              <div class="calc-sub-item">
+                <div class="calc-sub-icon">💥</div>
+                <div class="calc-sub-info">
+                  <span class="calc-sub-name">Stability</span>
+                  <span class="calc-sub-weight">Weight: 25%</span>
+                </div>
+                <span class="calc-sub-pts" id="pts-stability">25 / 25</span>
+              </div>
+
+              <div class="calc-sub-item">
+                <div class="calc-sub-icon">🔋</div>
+                <div class="calc-sub-info">
+                  <span class="calc-sub-name">Power / Battery</span>
+                  <span class="calc-sub-weight">Weight: 20%</span>
+                </div>
+                <span class="calc-sub-pts" id="pts-battery">19 / 20</span>
+              </div>
+
+              <div class="calc-sub-item">
+                <div class="calc-sub-icon">⚡</div>
+                <div class="calc-sub-info">
+                  <span class="calc-sub-name">System Load</span>
+                  <span class="calc-sub-weight">Weight: 20%</span>
+                </div>
+                <span class="calc-sub-pts" id="pts-load">18 / 20</span>
+              </div>
+            </div>
+
+            <!-- Dynamic Diagnosis Alert Box -->
+            <div class="calc-diagnosis-box" id="calc-diagnosis-box">
+              <div class="calc-diag-badge" id="calc-diag-badge">Optimal Health</div>
+              <p class="calc-diag-msg" id="calc-diag-msg">
+                All major hardware subsystems are performing within ideal manufacturer parameters. Drive wear is minimal, no kernel crashes detected, and thermal headroom is optimal.
+              </p>
+            </div>
+
+            <!-- Direct Download CTA -->
+            <div class="calc-cta-wrap">
+              <a href="https://github.com/CG-Technology/HardwareSentinel/releases/download/v1.1.0/HardwareSentinel.exe" target="_blank" rel="noopener noreferrer" class="btn btn-primary calc-cta-btn">
+                <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Audit This PC with Hardware Sentinel (.exe)
+              </a>
+              <span class="calc-cta-sub">Free &amp; Portable • Zero Install • 56 KB Standalone Executable</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
          Interactive CLI & Triage Simulator Section
          ========================================================================== -->
     <section class="simulator-section" id="simulator">
@@ -547,6 +727,7 @@
           <li><a href="#home">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#projects">Projects</a></li>
+          <li><a href="#calculator">Health Calculator</a></li>
           <li><a href="#simulator">Simulator</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="#contact">Contact</a></li>
@@ -567,8 +748,8 @@
   <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
   <!-- Scripts -->
-  <script src="js/projects-data.js?v=11"></script>
-  <script src="js/app.js?v=11"></script>
+  <script src="js/projects-data.js?v=12"></script>
+  <script src="js/app.js?v=12"></script>
 </body>
 </html>
 
