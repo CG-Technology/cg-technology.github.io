@@ -159,15 +159,15 @@ powershell -ExecutionPolicy Bypass -File .\\Detect-Zoom.ps1`
     category: "diagnostics",
     categoryName: "Hardware & Health",
     categories: ["diagnostics"],
-    badge: "v1.0.3 Ready",
+    badge: "v1.1.0 Ready",
     badgeType: "success",
     featured: true,
-    tags: ["PC Health Score", "Disk Visualizer", "Disk Space Consumers", "Top RAM & CPU Apps", "PowerShell & WPF"],
+    tags: ["PC Health Score", "Disk Visualizer", "RAM Slots & GPU", "BitLocker & Security", "Reliability Timeline"],
     stats: [
       { label: "Health Score", value: "0–100%" },
-      { label: "Diagnostics", value: "4 Modules" },
-      { label: "Installation", value: "None (Portable)" },
-      { label: "HTML Export", value: "Included" }
+      { label: "Diagnostics", value: "6 Modules" },
+      { label: "Trend Tracking", value: "Included" },
+      { label: "Installation", value: "Portable" }
     ],
     links: {
       github: "https://github.com/CG-Technology/HardwareSentinel",
@@ -175,14 +175,15 @@ powershell -ExecutionPolicy Bypass -File .\\Detect-Zoom.ps1`
       releases: "https://github.com/CG-Technology/HardwareSentinel/releases"
     },
     features: [
-      "0–100% PC Health Score: Intelligent weighted scoring across storage, battery, stability, and system load",
-      "Interactive Disk Visualizer: Click the storage card to launch a visualizer with lazy-loaded folder trees, size bars, and largest files finder (>=50MB)",
+      "0–100% PC Health Score & Trend History: Weighted scoring saved to local history to track health changes over time",
+      "One-Click System Utilities Toolbar: Direct launchers for Reliability Monitor (perfmon /rel), Storage Sense, Resource Monitor, and Task Manager",
+      "Hardware Specs & Upgrade Guidance: Detects RAM slots used vs capacity, RAM speed (MHz), GPU model/VRAM, and NVMe vs SATA vs HDD drive types",
+      "Security & Windows Baseline Audit: Inspects BitLocker encryption status on C:, pending Windows reboot, and TPM 2.0 / Secure Boot readiness",
+      "Interactive Disk Visualizer: Real-time folder search/filter, lazy-loaded folder trees, largest files finder (>=50MB), and safe Recycle Bin deletion",
       "Deep Storage & Space Consumers: Evaluates drive SMART indicators and identifies the largest space hogs on C: (Users, Program Files, Virtual Memory)",
       "Top CPU & Memory Processes: Pinpoints the highest memory-consuming programs (RAM) and active CPU threads in real time",
       "Battery & Power Wear: Measures battery charge cycles, wear percentage, and gracefully detects desktop AC power",
-      "Crash & BlueScreen History: Inspects minidumps and translates cryptic Windows crash codes into plain English",
-      "Dual Mode Experience: Clean dark WPF dashboard for desktop users, plus scriptable engine for automated IT maintenance",
-      "Standalone Branded Reports: Exports polished, self-contained HTML health summaries ready to email or archive"
+      "Crash & BlueScreen History: Inspects minidumps and translates cryptic Windows crash codes into plain English"
     ],
     quickSnippet: {
       language: "powershell",
