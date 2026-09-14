@@ -205,6 +205,11 @@ const fallbackProjectsData = [
       { label: "Installation", value: "None (Portable)" },
       { label: "Windows OS", value: "10 & 11" }
     ],
+    download: {
+      url: "https://github.com/CG-Technology/MSPToolkitPro/releases/download/v2.1.0/MSPToolkit.exe",
+      label: "Download .exe (276 KB)",
+      primary: true
+    },
     links: {
       github: "https://github.com/CG-Technology/MSPToolkitPro",
       docs: "https://github.com/CG-Technology/MSPToolkitPro#readme",
@@ -243,6 +248,11 @@ const fallbackProjectsData = [
       { label: "Installation", value: "None" },
       { label: "Branding", value: "100% Custom" }
     ],
+    download: {
+      url: "https://github.com/CG-Technology/ITSupportStudio/releases/download/v1.0.0/ITSupportStudio.exe",
+      label: "Download .exe (128 KB)",
+      primary: true
+    },
     links: {
       github: "https://github.com/CG-Technology/ITSupportStudio",
       docs: "https://github.com/CG-Technology/ITSupportStudio#readme",
@@ -281,6 +291,11 @@ const fallbackProjectsData = [
       { label: "Detection Rules", value: "Automatic" },
       { label: "Prerequisites", value: "None" }
     ],
+    download: {
+      url: "https://github.com/CG-Technology/IntuneAppPackager/releases/download/v1.0.0/IntuneAppPackager.exe",
+      label: "Download .exe (80 KB)",
+      primary: true
+    },
     links: {
       github: "https://github.com/CG-Technology/IntuneAppPackager",
       docs: "https://github.com/CG-Technology/IntuneAppPackager#readme",
