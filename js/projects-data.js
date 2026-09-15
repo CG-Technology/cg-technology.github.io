@@ -138,7 +138,7 @@ MSPToolkit.exe --run m365-repair`
       { label: "Prerequisites", value: "None" }
     ],
     download: {
-      url: "https://github.com/CG-Technology/IntuneAppPackager/releases/download/v1.0.0/IntuneAppPackager.exe",
+      url: "https://github.com/CG-Technology/IntuneAppPackager/releases/download/v1.1.0/IntuneAppPackager.exe",
       label: "Download .exe (80 KB)",
       primary: true
     },
